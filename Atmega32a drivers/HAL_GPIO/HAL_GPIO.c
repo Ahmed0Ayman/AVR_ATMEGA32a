@@ -79,6 +79,24 @@ void HAL_GPIO_WRITEPIN(GPIO_TypeDef * PORT,uint8_t PIN_NUM,GPIO_PinState PIN_STA
 
 
 
+
+/*
+ * brief  : this function used to write specific value to specific port 
+ * param. : PORT pointer to GPIO port
+ * param. : PINS  the pins need to write this value to  
+ * param. : PINS_STATE the pins state 
+ * return : void  
+ */
+void HAL_GPIO_WRITEPORT(GPIO_TypeDef * PORT,uint8_t PINS,GPIO_PinState PINS_STATE)
+{
+	PORT->PORT_REG &=~(PINS);
+	PORT->PORT_REG |=(PINS_STATE);
+}/* END_FUN HAL_GPIO_WRITEPORT()*/
+
+
+
+
+
 /*
  * brief  : this function used to toggle the specific pin 
  * param. : PORT pointer to GPIO port
