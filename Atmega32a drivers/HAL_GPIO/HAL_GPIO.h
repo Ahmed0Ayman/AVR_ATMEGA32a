@@ -130,6 +130,18 @@ void HAL_GPIO_TOGGLE_PIN(GPIO_TypeDef * PORT,uint8_t PIN_NUM);
 
 
 
+
+/*
+ * brief  : this function used to write specific value to specific port 
+ * param. : PORT pointer to GPIO port
+ * param. : PINS  the pins need to write this value to  
+ * param. : PINS_STATE the pins state 
+ * return : void  
+ */
+void HAL_GPIO_WRITEPORT(GPIO_TypeDef * PORT,uint8_t PINS,GPIO_PinState PINS_STATE);
+
+
+
 /*
  * brief  : this function used to disable sleep mode  
  * return : void 
