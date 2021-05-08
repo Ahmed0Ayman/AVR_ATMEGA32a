@@ -195,30 +195,15 @@ void LCD_Send_String_WithLoc(uint8_t y, uint8_t x, uint8_t *StringOfCharacters)
  * param. :  y  is specify y axises location start from 1 
  * param. :  x  is specify y axises location start from 1
  * param. : IntegerToDisplay this is the integer value that you want to display
- * param. : NumberOfDigits number of digits of the integer number that you want to display 
  * return : void 
  */
-void LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number , uint16_t precision)
+void LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number )
 {
 	LCD_Goto_Location(y,x);
 	
-	double after=10.0;
-
-	if (precision == 1 )		after = after *1;  /* chose the precision */
-
-	else if (precision==2)	after = 100.0;
-
-	else if (precision==3)	after = 1000.0;
-
-	else if (precision==4)	after = 10000.0;
-
-	else if (precision==5)	after = 100000.0;
-
-	else if (precision==6)	after = 1000000.0;
-
 	uint16_t intValue = (uint16_t)number;                    /* calculate the int value */
-	float diffValue = number - (float)intValue;              
-	uint16_t decimalValue = (uint16_t)(diffValue * after);  /* calculate the float value */
+	float diffValue = (number - (float)intValue);              
+	uint16_t decimalValue = (uint16_t)(diffValue * pow(10,2));  /* calculate the float value */
 	
 	
 	LCD_Send_Integer_CurrLoc(intValue,5);
