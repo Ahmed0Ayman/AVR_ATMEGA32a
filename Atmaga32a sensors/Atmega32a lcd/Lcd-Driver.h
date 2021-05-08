@@ -104,10 +104,9 @@ void LCD_Send_Integer_WithLoc(uint8_t y, uint8_t x, uint16_t IntegerToDisplay, u
  * param. :  y  is specify y axises location start from 1 
  * param. :  x  is specify y axises location start from 1
  * param. : IntegerToDisplay this is the integer value that you want to display
- * param. : NumberOfDigits number of digits of the integer number that you want to display 
  * return : void 
  */
-void LCD_Send_Float_withloc(uint8_t y, uint8_t x ,  float number ,uint16_t precision);
+void LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number );
 
 /* 
  * brief  : this function used to send an 16 bit integer to LCD with the current location 
