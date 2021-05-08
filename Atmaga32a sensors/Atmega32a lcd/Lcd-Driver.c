@@ -177,7 +177,7 @@ void LCD_Initializaion(void)
  * param. : StringOfCharacters pointer to string that you want to display
  * return : void 
  */
-void Send_A_String_WithLoc(uint8_t y, uint8_t x, uint8_t *StringOfCharacters)
+void LCD_Send_String_WithLoc(uint8_t y, uint8_t x, uint8_t *StringOfCharacters)
 {
 	LCD_Goto_Location(y,x);
 	while (*StringOfCharacters != 0)
