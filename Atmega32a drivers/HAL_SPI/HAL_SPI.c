@@ -79,14 +79,15 @@ static SPI_STATUS SPI_State  ;  /* static variable used by the driver to indicat
 
 	Handler->TxBuffer = pTxData  ;
 	Handler->TxBufferSize = size;
-	
+	HAL_GPIO_WRITEPIN(GPIOB,SPI_PIN_SS,GPIO_PIN_RESET); 	
 	while(Handler->TxBufferSize-- > 0)   /* block mode so this function will block till the size of buffer is equal to zero */
 	{
 		SPI_PREPH->SPI_SPDR = *(Handler->TxBuffer);
 		while(!(SPI_PREPH->SPI_SPSR & SPI_SPSR_SPIF)); /* wait till the SPI send byte and set SPIIF bit */
 		++(Handler->TxBuffer);
 	}
-	
+	HAL_GPIO_WRITEPIN(GPIOB,SPI_PIN_SS,GPIO_PIN_SET);
+	 
 	
 }/* END_FUN HAL_SPI_Transmit()*/
 
@@ -105,14 +106,18 @@ static SPI_STATUS SPI_State  ;  /* static variable used by the driver to indicat
 	Handler->TxBuffer = NULL  ;
 	Handler->RxBufferSize = size ;
 	Handler->TxBufferSize = 0;
-	
+
+	HAL_GPIO_WRITEPIN(GPIOB,SPI_PIN_SS,GPIO_PIN_RESET);
 	while(Handler->RxBufferSize >0)  /* block until end */
 	{ 
 		 *(Handler->TxBuffer) = SPI_PREPH->SPI_SPDR ;
 		while(!(SPI_PREPH->SPI_SPSR & SPI_SPSR_SPIF));  /* wait till the spi send byte and set SPIIF bit */
 		++(Handler->RxBuffer);
 		--(Handler->RxBufferSize);
-	}	
+	}
+	 
+	HAL_GPIO_WRITEPIN(GPIOB,SPI_PIN_SS,GPIO_PIN_SET);
+
 	
 }/* END_FUN HAL_SPI_Recieve()*/
 
@@ -132,18 +137,21 @@ static SPI_STATUS SPI_State  ;  /* static variable used by the driver to indicat
 	Handler->TxBuffer = pTxData  ;
 	Handler->RxBufferSize = size ;
 	Handler->TxBufferSize = size;
-	
+
+	HAL_GPIO_WRITEPIN(GPIOB,SPI_PIN_SS,GPIO_PIN_RESET);
 	while(Handler->RxBufferSize-- > 0)  /* block till end operation */
 	{
 
 		SPI_PREPH->SPI_SPDR = *(Handler->TxBuffer);
 		while(!(SPI_PREPH->SPI_SPSR & SPI_SPSR_SPIF));  /* wait till the SPI send byte and set SPIIF bit */
-		*(Handler->TxBuffer) = SPI_PREPH->SPI_SPDR ;
+		*(Handler->RxBuffer) = SPI_PREPH->SPI_SPDR ;
 		++(Handler->RxBuffer);
 		++(Handler->TxBuffer);
 		
 	}	
 	
+	HAL_GPIO_WRITEPIN(GPIOB,SPI_PIN_SS,GPIO_PIN_SET);
+
 }/* END_FUN HAL_TransmitRecive()*/
 
 
