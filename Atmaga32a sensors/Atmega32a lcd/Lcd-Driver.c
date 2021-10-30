@@ -1,8 +1,11 @@
-
+ /*
+ * Lcd_Driver.c
+ *
+ * Created: 4/12/2021 3:14:06 PM
+ * Author : Ahmed_Ayman
+ */
 #include "LCD-Driver.h"
 
-/*LCD_GPIO_Handler used by lcd_driver to configure gpio for gpio module */
-static GPIO_InitTypeDef LCD_GPIO_Handler ;
 
 /* start position for x & y location as described in data sheet*/ 
 static uint8_t column_position [2] = {0x80,0xc0};
@@ -29,9 +32,10 @@ static void LCD_Triger_Enable(void);
 
 static void LCD_Triger_Enable(void)
 {
-	HAL_GPIO_WRITEPIN(GPIOB,LCD_EN_GPIOB,GPIO_PIN_SET);  // set enable pin
+	
+	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_E_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_E_PIN].Pin,GPIO_PIN_SET);  // set enable pin
 	_delay_us(1);
-	HAL_GPIO_WRITEPIN(GPIOB,LCD_EN_GPIOB,GPIO_PIN_RESET); // reset enable pin 
+	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_E_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_E_PIN].Pin,GPIO_PIN_RESET);  // set enable pin
 	_delay_ms(2);	
 	
 } /* END_FUN LCD_Triger_Enable()*/
@@ -45,9 +49,11 @@ static void LCD_Triger_Enable(void)
 static void LCD_Send_4BitData(uint8_t data)
 {
 	
-		HAL_GPIO_WRITEPORT(GPIOA,LCD_D7_GPIOA|LCD_D6_GPIOA|LCD_D5_GPIOA|LCD_D4_GPIOA,(data & 0xf0));  /* set the high nibble */
+		for(int i =3 ; i < 7 ;i++)																			
+		HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[i].Port,LcdBitSelect.LcdBits[i].Pin,((1<<(i+1))&(data))>>(i+1));	/* set the high nibble */
 		LCD_Triger_Enable();
-		HAL_GPIO_WRITEPORT(GPIOA,LCD_D7_GPIOA|LCD_D6_GPIOA|LCD_D5_GPIOA|LCD_D4_GPIOA,((data & 0x0f)<<4)); /* set the low nibble */
+		for(int i =3 ; i < 7 ;i++)
+		HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[i].Port,LcdBitSelect.LcdBits[i].Pin,((1<<(i-3))&(data))>>(i-3));	/* set the high nibble */
 		LCD_Triger_Enable();
 
 } /* END_FUN LCD_Send_4BitData()*/
@@ -61,8 +67,8 @@ static void LCD_Send_4BitData(uint8_t data)
  */ 
 void LCD_Send_Character_CurrLoc(uint8_t character)
 {
-	HAL_GPIO_WRITEPIN(GPIOB,LCD_RS_GPIOB,GPIO_PIN_SET);
-	HAL_GPIO_WRITEPIN(GPIOB,LCD_RW_GPIOB,GPIO_PIN_RESET);
+	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Pin,GPIO_PIN_SET);  // set enable pin
+	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Pin,GPIO_PIN_RESET);  // set enable pin
 
 	LCD_Send_4BitData(character);
 	
@@ -79,7 +85,8 @@ void LCD_Send_Character_CurrLoc(uint8_t character)
 void LCD_Send_Command(uint8_t command)
 {
 	
-	HAL_GPIO_WRITEPIN(GPIOB,LCD_RS_GPIOB|LCD_RW_GPIOB,GPIO_PIN_RESET);
+	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Pin,GPIO_PIN_RESET);  // set enable pin		
+	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Pin,GPIO_PIN_RESET);  // set enable pin
 	LCD_Send_4BitData(command);
 	
 } /* END_FUN LCD_Send_Command()*/
@@ -98,8 +105,8 @@ void LCD_Send_Character_WithLoc(uint8_t y,uint8_t x,uint8_t character)
 {
 	
 	LCD_Goto_Location(y,x);
-	HAL_GPIO_WRITEPIN(GPIOB,LCD_RS_GPIOB,GPIO_PIN_SET);
-	HAL_GPIO_WRITEPIN(GPIOB,LCD_RW_GPIOB,GPIO_PIN_RESET);
+	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Pin,GPIO_PIN_SET);  // set enable pin
+	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Pin,GPIO_PIN_RESET);  // set enable pin
 	LCD_Send_4BitData(character);
 	
 } /* END_FUN LCD_Send_Character_WithLoc()*/
@@ -147,17 +154,23 @@ void LCD_Goto_Location(uint8_t y , uint8_t x)
  */ 
 void LCD_Initializaion(void)
 {
+	GPIO_InitTypeDef LCD_GPIO_Handler ;
+	
+	
 	_delay_ms(20);
 	/* Set portB pin 1,2,3 as output */
 	LCD_GPIO_Handler.mode = GPIO_MODE_OUTPUT ;
-	LCD_GPIO_Handler.pinS = LCD_RW_GPIOB |LCD_RS_GPIOB |LCD_EN_GPIOB ;
 	LCD_GPIO_Handler.pull =GPIO_NOPULL ;
-	HAL_GPIO_INIT_PIN(GPIOB,&LCD_GPIO_Handler);
 	
-	/* Set portA pin 4,5,6,7 as output*/	
-	LCD_GPIO_Handler.pinS = LCD_D4_GPIOA|LCD_D5_GPIOA|LCD_D6_GPIOA|LCD_D7_GPIOA;
-	HAL_GPIO_INIT_PIN(GPIOA,&LCD_GPIO_Handler);
 	
+	
+	
+	for(int i =0 ; i < 7 ;i++)
+	{
+		LCD_GPIO_Handler.pinS = LcdBitSelect.LcdBits[i].Pin ;  
+		HAL_GPIO_INIT_PIN(LcdBitSelect.LcdBits[i].Port,&LCD_GPIO_Handler);
+	}
+
 	/* LCD Initialization command*/
 	LCD_Send_Command(0x33U);  
 	LCD_Send_Command(0x32U);
@@ -249,5 +262,4 @@ void LCD_Send_Integer_WithLoc(uint8_t y, uint8_t x, uint16_t IntegerToDisplay, u
 		
 	LCD_Send_String_WithLoc(y,x,StringToDisplay);
 } /* END_FUN LCD_Send_Integer_WithLoc()*/
-
 

@@ -54,23 +54,6 @@ typedef enum
 #define  GPIO_PULLUP					0X01U
 
 
-/*
-*Select on of the following 6 modes  
-* please refer to data sheet to get more info. about the capability of each mode 
-*/
-#define  SLEEP_MODE_IDLE				0X00U
-
-#define  SLEEP_MODE_ADC					0X01U
-
-#define  SLEEP_MODE_POWER_DOWN			0X02U
-
-#define  SLEEP_MODE_POWER_SAVE			0X03U
-
-#define  SLEEP_MODE_STANDBY				0X06U
-
-#define  SLEEP_MODE_EX_SYTANDBY			0X07U
-
-
 /* IN data sheet their is a multiple sources 
 * can wake up the MCU but the external interrupt in 
 * a common one between all modes */

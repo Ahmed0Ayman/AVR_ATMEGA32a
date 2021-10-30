@@ -7,19 +7,34 @@
 #include <stdint.h>
 #include <util/delay.h>
 #include "HAL_GPIO.h"
+#include "LCD_Bits.h"
+ 
+ 
+ 
 
 
-/*
-these are the connected pins of LCD
-you can change the pin in here 
-*/ 
-#define LCD_RW_GPIOB (GPIO_PIN_2)
-#define LCD_RS_GPIOB (GPIO_PIN_1)
-#define LCD_EN_GPIOB (GPIO_PIN_3)
-#define LCD_D4_GPIOA (GPIO_PIN_4)
-#define LCD_D5_GPIOA (GPIO_PIN_5)
-#define LCD_D6_GPIOA (GPIO_PIN_6)
-#define LCD_D7_GPIOA (GPIO_PIN_7)
+typedef struct 
+{
+		GPIO_TypeDef   * Port ;
+		uint8_t          Pin  ;
+	}LCD_bit;
+
+typedef struct   
+{
+	LCD_bit LcdBits[7];
+}LcdBitSelect_t;
+
+
+extern LcdBitSelect_t LcdBitSelect ;
+
+
+#define RESET_CONTROL_BITS()																		\
+for(int i =0 ; i < 3 ;i++)																			\
+HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[i].Port,LcdBitSelect.LcdBits[i].Pin,GPIO_PIN_RESET);			\
+
+#define SET_CONTROL_BITS()																			\
+for(int i =0 ; i < 3 ;i++)																			\
+HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[i].Port,LcdBitSelect.LcdBits[i].Pin,GPIO_PIN_SET);			\
 
 
 

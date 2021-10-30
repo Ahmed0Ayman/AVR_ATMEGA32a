@@ -3,31 +3,29 @@ DS1305_RTC.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000696  00000000  00000000  00000094  2**1
+  0 .text         00000742  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000018  00800060  00000696  0000072a  2**0
+  1 .data         00000036  00800060  00000742  000007b6  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000005  00800078  00800078  00000742  2**0
-                  ALLOC
-  3 .comment      00000030  00000000  00000000  00000742  2**0
+  2 .comment      00000030  00000000  00000000  000007ec  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000774  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000081c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000180  00000000  00000000  000007b0  2**0
+  4 .debug_aranges 00000180  00000000  00000000  00000858  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001afd  00000000  00000000  00000930  2**0
+  5 .debug_info   00001bd6  00000000  00000000  000009d8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000a5f  00000000  00000000  0000242d  2**0
+  6 .debug_abbrev 00000ac0  00000000  00000000  000025ae  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000d99  00000000  00000000  00002e8c  2**0
+  7 .debug_line   00000e09  00000000  00000000  0000306e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000003b4  00000000  00000000  00003c28  2**2
+  8 .debug_frame  000003c0  00000000  00000000  00003e78  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000976  00000000  00000000  00003fdc  2**0
+  9 .debug_str    000009a3  00000000  00000000  00004238  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000cfe  00000000  00000000  00004952  2**0
+ 10 .debug_loc    00000d76  00000000  00000000  00004bdb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000130  00000000  00000000  00005650  2**0
+ 11 .debug_ranges 00000130  00000000  00000000  00005951  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -67,18 +65,18 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e6 e9       	ldi	r30, 0x96	; 150
-  68:	f6 e0       	ldi	r31, 0x06	; 6
+  66:	e2 e4       	ldi	r30, 0x42	; 66
+  68:	f7 e0       	ldi	r31, 0x07	; 7
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a8 37       	cpi	r26, 0x78	; 120
+  70:	a6 39       	cpi	r26, 0x96	; 150
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
 00000076 <__do_clear_bss>:
   76:	20 e0       	ldi	r18, 0x00	; 0
-  78:	a8 e7       	ldi	r26, 0x78	; 120
+  78:	a6 e9       	ldi	r26, 0x96	; 150
   7a:	b0 e0       	ldi	r27, 0x00	; 0
   7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
 
@@ -86,11 +84,11 @@ Disassembly of section .text:
   7e:	1d 92       	st	X+, r1
 
 00000080 <.do_clear_bss_start>:
-  80:	ad 37       	cpi	r26, 0x7D	; 125
+  80:	a6 39       	cpi	r26, 0x96	; 150
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-  86:	0e 94 c7 01 	call	0x38e	; 0x38e <main>
-  8a:	0c 94 49 03 	jmp	0x692	; 0x692 <_exit>
+  86:	0e 94 1e 02 	call	0x43c	; 0x43c <main>
+  8a:	0c 94 9f 03 	jmp	0x73e	; 0x73e <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -98,1069 +96,1206 @@ Disassembly of section .text:
 00000092 <S7egment_Init>:
 
 
-	
-	
-void S7egment_Init(GPIO_TypeDef * Control_S7eg_Port ,GPIO_TypeDef * Seg7_write_Port, uint8_t S7eg_Control_Pin)
-{
-  92:	ff 92       	push	r15
-  94:	0f 93       	push	r16
-  96:	1f 93       	push	r17
-  98:	cf 93       	push	r28
-  9a:	df 93       	push	r29
-  9c:	00 d0       	rcall	.+0      	; 0x9e <S7egment_Init+0xc>
-  9e:	1f 92       	push	r1
-  a0:	cd b7       	in	r28, 0x3d	; 61
-  a2:	de b7       	in	r29, 0x3e	; 62
-  a4:	f4 2e       	mov	r15, r20
-		GPIO_InitTypeDef  S7eg_PIN_CONFIG ;
-		S7eg_PIN_CONFIG.pinS = S7eg_Control_Pin ;
-  a6:	49 83       	std	Y+1, r20	; 0x01
-		S7eg_PIN_CONFIG.mode = GPIO_MODE_OUTPUT ;
-  a8:	21 e0       	ldi	r18, 0x01	; 1
-  aa:	2a 83       	std	Y+2, r18	; 0x02
-		S7eg_PIN_CONFIG.pull = GPIO_NOPULL ;
-  ac:	1b 82       	std	Y+3, r1	; 0x03
 
-	S7egment_Handler.Control_S7eg_Port = Control_S7eg_Port ;
-  ae:	08 e7       	ldi	r16, 0x78	; 120
+	
+void S7egment_Init(Seg7_Handler *  Segment_Handler)
+{
+  92:	ef 92       	push	r14
+  94:	ff 92       	push	r15
+  96:	0f 93       	push	r16
+  98:	1f 93       	push	r17
+  9a:	cf 93       	push	r28
+  9c:	df 93       	push	r29
+  9e:	00 d0       	rcall	.+0      	; 0xa0 <S7egment_Init+0xe>
+  a0:	1f 92       	push	r1
+  a2:	cd b7       	in	r28, 0x3d	; 61
+  a4:	de b7       	in	r29, 0x3e	; 62
+  a6:	7c 01       	movw	r14, r24
+		GPIO_InitTypeDef  S7eg_PIN_CONFIG ;
+
+	
+	S7eg_PIN_CONFIG.mode = GPIO_MODE_OUTPUT ;
+  a8:	81 e0       	ldi	r24, 0x01	; 1
+  aa:	8a 83       	std	Y+2, r24	; 0x02
+	S7eg_PIN_CONFIG.pull = GPIO_NOPULL ;
+  ac:	1b 82       	std	Y+3, r1	; 0x03
+	/*initialize all control bits  */
+	for (int i=0 ; i < 6 ;i++ )
+  ae:	00 e0       	ldi	r16, 0x00	; 0
   b0:	10 e0       	ldi	r17, 0x00	; 0
-  b2:	f8 01       	movw	r30, r16
-  b4:	91 83       	std	Z+1, r25	; 0x01
-  b6:	80 83       	st	Z, r24
-	S7egment_Handler.Seg7_write_Port = Seg7_write_Port ;
-  b8:	73 83       	std	Z+3, r23	; 0x03
-  ba:	62 83       	std	Z+2, r22	; 0x02
-	S7egment_Handler.Num_Of_7Seg = S7eg_Control_Pin;
-  bc:	44 83       	std	Z+4, r20	; 0x04
-	HAL_GPIO_INIT_PIN(S7egment_Handler.Control_S7eg_Port,&S7eg_PIN_CONFIG);
-  be:	be 01       	movw	r22, r28
-  c0:	6f 5f       	subi	r22, 0xFF	; 255
-  c2:	7f 4f       	sbci	r23, 0xFF	; 255
-  c4:	0e 94 e3 00 	call	0x1c6	; 0x1c6 <HAL_GPIO_INIT_PIN>
-	S7eg_PIN_CONFIG.pinS = 0x0fu ;
-  c8:	8f e0       	ldi	r24, 0x0F	; 15
-  ca:	89 83       	std	Y+1, r24	; 0x01
-	HAL_GPIO_INIT_PIN(S7egment_Handler.Seg7_write_Port,&S7eg_PIN_CONFIG);
-  cc:	be 01       	movw	r22, r28
-  ce:	6f 5f       	subi	r22, 0xFF	; 255
-  d0:	7f 4f       	sbci	r23, 0xFF	; 255
-  d2:	f8 01       	movw	r30, r16
-  d4:	82 81       	ldd	r24, Z+2	; 0x02
-  d6:	93 81       	ldd	r25, Z+3	; 0x03
-  d8:	0e 94 e3 00 	call	0x1c6	; 0x1c6 <HAL_GPIO_INIT_PIN>
-	HAL_GPIO_WRITEPIN(S7egment_Handler.Control_S7eg_Port,S7eg_Control_Pin,0);
-  dc:	40 e0       	ldi	r20, 0x00	; 0
-  de:	6f 2d       	mov	r22, r15
-  e0:	f8 01       	movw	r30, r16
-  e2:	80 81       	ld	r24, Z
-  e4:	91 81       	ldd	r25, Z+1	; 0x01
-  e6:	0e 94 04 01 	call	0x208	; 0x208 <HAL_GPIO_WRITEPIN>
+  b2:	12 c0       	rjmp	.+36     	; 0xd8 <S7egment_Init+0x46>
+	{
+		S7eg_PIN_CONFIG.pinS = Segment_Handler->S7eg_Control[i].Pin_Num ;	
+  b4:	f8 01       	movw	r30, r16
+  b6:	ee 0f       	add	r30, r30
+  b8:	ff 1f       	adc	r31, r31
+  ba:	e0 0f       	add	r30, r16
+  bc:	f1 1f       	adc	r31, r17
+  be:	ee 0d       	add	r30, r14
+  c0:	ff 1d       	adc	r31, r15
+  c2:	82 81       	ldd	r24, Z+2	; 0x02
+  c4:	89 83       	std	Y+1, r24	; 0x01
+		HAL_GPIO_INIT_PIN(Segment_Handler->S7eg_Control[i].Port,&S7eg_PIN_CONFIG);	
+  c6:	be 01       	movw	r22, r28
+  c8:	6f 5f       	subi	r22, 0xFF	; 255
+  ca:	7f 4f       	sbci	r23, 0xFF	; 255
+  cc:	80 81       	ld	r24, Z
+  ce:	91 81       	ldd	r25, Z+1	; 0x01
+  d0:	0e 94 42 01 	call	0x284	; 0x284 <HAL_GPIO_INIT_PIN>
+
+	
+	S7eg_PIN_CONFIG.mode = GPIO_MODE_OUTPUT ;
+	S7eg_PIN_CONFIG.pull = GPIO_NOPULL ;
+	/*initialize all control bits  */
+	for (int i=0 ; i < 6 ;i++ )
+  d4:	0f 5f       	subi	r16, 0xFF	; 255
+  d6:	1f 4f       	sbci	r17, 0xFF	; 255
+  d8:	06 30       	cpi	r16, 0x06	; 6
+  da:	11 05       	cpc	r17, r1
+  dc:	5c f3       	brlt	.-42     	; 0xb4 <S7egment_Init+0x22>
+  de:	00 e0       	ldi	r16, 0x00	; 0
+  e0:	10 e0       	ldi	r17, 0x00	; 0
+  e2:	12 c0       	rjmp	.+36     	; 0x108 <S7egment_Init+0x76>
+
+
+	/*initialize 7 segment BCD Bits */	
+	for (int i=0 ; i < 4 ;i++ )
+	{
+		S7eg_PIN_CONFIG.pinS = Segment_Handler->S7eg_Bits[i].Pin_Num;
+  e4:	f8 01       	movw	r30, r16
+  e6:	ee 0f       	add	r30, r30
+  e8:	ff 1f       	adc	r31, r31
+  ea:	e0 0f       	add	r30, r16
+  ec:	f1 1f       	adc	r31, r17
+  ee:	ee 0d       	add	r30, r14
+  f0:	ff 1d       	adc	r31, r15
+  f2:	84 89       	ldd	r24, Z+20	; 0x14
+  f4:	89 83       	std	Y+1, r24	; 0x01
+		HAL_GPIO_INIT_PIN(Segment_Handler->S7eg_Bits[i].Port,&S7eg_PIN_CONFIG);
+  f6:	be 01       	movw	r22, r28
+  f8:	6f 5f       	subi	r22, 0xFF	; 255
+  fa:	7f 4f       	sbci	r23, 0xFF	; 255
+  fc:	82 89       	ldd	r24, Z+18	; 0x12
+  fe:	93 89       	ldd	r25, Z+19	; 0x13
+ 100:	0e 94 42 01 	call	0x284	; 0x284 <HAL_GPIO_INIT_PIN>
+		HAL_GPIO_INIT_PIN(Segment_Handler->S7eg_Control[i].Port,&S7eg_PIN_CONFIG);	
+	}
+
+
+	/*initialize 7 segment BCD Bits */	
+	for (int i=0 ; i < 4 ;i++ )
+ 104:	0f 5f       	subi	r16, 0xFF	; 255
+ 106:	1f 4f       	sbci	r17, 0xFF	; 255
+ 108:	04 30       	cpi	r16, 0x04	; 4
+ 10a:	11 05       	cpc	r17, r1
+ 10c:	5c f3       	brlt	.-42     	; 0xe4 <S7egment_Init+0x52>
+		HAL_GPIO_INIT_PIN(Segment_Handler->S7eg_Bits[i].Port,&S7eg_PIN_CONFIG);
+	}	
+	
 	
 	
 }
-  ea:	0f 90       	pop	r0
-  ec:	0f 90       	pop	r0
-  ee:	0f 90       	pop	r0
-  f0:	df 91       	pop	r29
-  f2:	cf 91       	pop	r28
-  f4:	1f 91       	pop	r17
-  f6:	0f 91       	pop	r16
-  f8:	ff 90       	pop	r15
-  fa:	08 95       	ret
+ 10e:	0f 90       	pop	r0
+ 110:	0f 90       	pop	r0
+ 112:	0f 90       	pop	r0
+ 114:	df 91       	pop	r29
+ 116:	cf 91       	pop	r28
+ 118:	1f 91       	pop	r17
+ 11a:	0f 91       	pop	r16
+ 11c:	ff 90       	pop	r15
+ 11e:	ef 90       	pop	r14
+ 120:	08 95       	ret
 
-000000fc <S7egment_Write>:
-void S7egment_Write(uint8_t Num_To_S7eg , uint8_t S7eg_Num)
+00000122 <S7egment_Write>:
+void S7egment_Write(uint8_t Num_To_S7eg , uint8_t S7eg_Num,Seg7_Handler *  Segment_Handler)
 {
-  fc:	ff 92       	push	r15
-  fe:	0f 93       	push	r16
- 100:	1f 93       	push	r17
- 102:	cf 93       	push	r28
- 104:	df 93       	push	r29
- 106:	f6 2e       	mov	r15, r22
+ 122:	df 92       	push	r13
+ 124:	ef 92       	push	r14
+ 126:	ff 92       	push	r15
+ 128:	0f 93       	push	r16
+ 12a:	1f 93       	push	r17
+ 12c:	cf 93       	push	r28
+ 12e:	df 93       	push	r29
+ 130:	06 2f       	mov	r16, r22
+ 132:	ea 01       	movw	r28, r20
+
+
 	uint8_t High_Num=0,Low_Num=0 ;
 	Low_Num = Num_To_S7eg % 10 ;
- 108:	9d ec       	ldi	r25, 0xCD	; 205
- 10a:	89 9f       	mul	r24, r25
- 10c:	91 2d       	mov	r25, r1
- 10e:	11 24       	eor	r1, r1
- 110:	09 2f       	mov	r16, r25
- 112:	06 95       	lsr	r16
- 114:	06 95       	lsr	r16
- 116:	06 95       	lsr	r16
- 118:	00 0f       	add	r16, r16
- 11a:	20 2f       	mov	r18, r16
- 11c:	22 0f       	add	r18, r18
- 11e:	22 0f       	add	r18, r18
- 120:	02 0f       	add	r16, r18
- 122:	80 1b       	sub	r24, r16
- 124:	08 2f       	mov	r16, r24
-	Num_To_S7eg /= 10 ;
- 126:	89 2f       	mov	r24, r25
- 128:	86 95       	lsr	r24
- 12a:	86 95       	lsr	r24
- 12c:	86 95       	lsr	r24
-	if (Num_To_S7eg > 0){
- 12e:	79 f0       	breq	.+30     	; 0x14e <S7egment_Write+0x52>
-		High_Num = Num_To_S7eg % 10 ; 
- 130:	1d ec       	ldi	r17, 0xCD	; 205
- 132:	81 9f       	mul	r24, r17
- 134:	11 2d       	mov	r17, r1
- 136:	11 24       	eor	r1, r1
- 138:	16 95       	lsr	r17
- 13a:	16 95       	lsr	r17
- 13c:	16 95       	lsr	r17
- 13e:	11 0f       	add	r17, r17
- 140:	91 2f       	mov	r25, r17
- 142:	99 0f       	add	r25, r25
- 144:	99 0f       	add	r25, r25
- 146:	19 0f       	add	r17, r25
- 148:	81 1b       	sub	r24, r17
- 14a:	18 2f       	mov	r17, r24
- 14c:	01 c0       	rjmp	.+2      	; 0x150 <S7egment_Write+0x54>
-	}else{
-		High_Num = 0 ;
- 14e:	10 e0       	ldi	r17, 0x00	; 0
+ 134:	9d ec       	ldi	r25, 0xCD	; 205
+ 136:	89 9f       	mul	r24, r25
+ 138:	d1 2c       	mov	r13, r1
+ 13a:	11 24       	eor	r1, r1
+ 13c:	d6 94       	lsr	r13
+ 13e:	d6 94       	lsr	r13
+ 140:	d6 94       	lsr	r13
+ 142:	dd 0c       	add	r13, r13
+ 144:	9d 2d       	mov	r25, r13
+ 146:	99 0f       	add	r25, r25
+ 148:	99 0f       	add	r25, r25
+ 14a:	d9 0e       	add	r13, r25
+ 14c:	98 2f       	mov	r25, r24
+ 14e:	9d 19       	sub	r25, r13
+ 150:	d9 2e       	mov	r13, r25
+	if (Num_To_S7eg == 0)
+ 152:	88 23       	and	r24, r24
+ 154:	b9 f0       	breq	.+46     	; 0x184 <S7egment_Write+0x62>
+	{
+		
 	}
-	
-	HAL_GPIO_WRITEPIN(S7egment_Handler.Control_S7eg_Port,S7egment_Handler.Num_Of_7Seg , 0);
- 150:	c8 e7       	ldi	r28, 0x78	; 120
- 152:	d0 e0       	ldi	r29, 0x00	; 0
- 154:	40 e0       	ldi	r20, 0x00	; 0
- 156:	6c 81       	ldd	r22, Y+4	; 0x04
- 158:	88 81       	ld	r24, Y
- 15a:	99 81       	ldd	r25, Y+1	; 0x01
- 15c:	0e 94 04 01 	call	0x208	; 0x208 <HAL_GPIO_WRITEPIN>
-	HAL_GPIO_WRITEPORT(S7egment_Handler.Seg7_write_Port,0x0f,High_Num ,0x0f);
- 160:	2f e0       	ldi	r18, 0x0F	; 15
- 162:	41 2f       	mov	r20, r17
- 164:	6f e0       	ldi	r22, 0x0F	; 15
- 166:	8a 81       	ldd	r24, Y+2	; 0x02
- 168:	9b 81       	ldd	r25, Y+3	; 0x03
- 16a:	0e 94 11 01 	call	0x222	; 0x222 <HAL_GPIO_WRITEPORT>
-	HAL_GPIO_WRITEPIN(S7egment_Handler.Control_S7eg_Port,S7eg_Num,1);
- 16e:	41 e0       	ldi	r20, 0x01	; 1
- 170:	6f 2d       	mov	r22, r15
- 172:	88 81       	ld	r24, Y
- 174:	99 81       	ldd	r25, Y+1	; 0x01
- 176:	0e 94 04 01 	call	0x208	; 0x208 <HAL_GPIO_WRITEPIN>
+	else
+	{
+	Num_To_S7eg /= 10 ;
+ 156:	9d ec       	ldi	r25, 0xCD	; 205
+ 158:	89 9f       	mul	r24, r25
+ 15a:	81 2d       	mov	r24, r1
+ 15c:	11 24       	eor	r1, r1
+ 15e:	86 95       	lsr	r24
+ 160:	86 95       	lsr	r24
+ 162:	86 95       	lsr	r24
+	if (Num_To_S7eg > 0){
+ 164:	89 f0       	breq	.+34     	; 0x188 <S7egment_Write+0x66>
+		High_Num = Num_To_S7eg % 10 ;
+ 166:	1d ec       	ldi	r17, 0xCD	; 205
+ 168:	81 9f       	mul	r24, r17
+ 16a:	11 2d       	mov	r17, r1
+ 16c:	11 24       	eor	r1, r1
+ 16e:	16 95       	lsr	r17
+ 170:	16 95       	lsr	r17
+ 172:	16 95       	lsr	r17
+ 174:	11 0f       	add	r17, r17
+ 176:	91 2f       	mov	r25, r17
+ 178:	99 0f       	add	r25, r25
+ 17a:	99 0f       	add	r25, r25
+ 17c:	19 0f       	add	r17, r25
+ 17e:	81 1b       	sub	r24, r17
+ 180:	18 2f       	mov	r17, r24
+ 182:	03 c0       	rjmp	.+6      	; 0x18a <S7egment_Write+0x68>
+}
+void S7egment_Write(uint8_t Num_To_S7eg , uint8_t S7eg_Num,Seg7_Handler *  Segment_Handler)
+{
+
+
+	uint8_t High_Num=0,Low_Num=0 ;
+ 184:	10 e0       	ldi	r17, 0x00	; 0
+ 186:	01 c0       	rjmp	.+2      	; 0x18a <S7egment_Write+0x68>
+	{
+	Num_To_S7eg /= 10 ;
+	if (Num_To_S7eg > 0){
+		High_Num = Num_To_S7eg % 10 ;
+		}else{
+		High_Num = 0 ;
+ 188:	10 e0       	ldi	r17, 0x00	; 0
+	}
+	}
+
+	for(int i =0 ;i<4 ;i++)
+ 18a:	e1 2c       	mov	r14, r1
+ 18c:	f1 2c       	mov	r15, r1
+ 18e:	18 c0       	rjmp	.+48     	; 0x1c0 <S7egment_Write+0x9e>
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Bits[i].Port,Segment_Handler->S7eg_Bits[i].Pin_Num,(High_Num>>i)&(0x01));
+ 190:	41 2f       	mov	r20, r17
+ 192:	50 e0       	ldi	r21, 0x00	; 0
+ 194:	0e 2c       	mov	r0, r14
+ 196:	02 c0       	rjmp	.+4      	; 0x19c <S7egment_Write+0x7a>
+ 198:	55 95       	asr	r21
+ 19a:	47 95       	ror	r20
+ 19c:	0a 94       	dec	r0
+ 19e:	e2 f7       	brpl	.-8      	; 0x198 <S7egment_Write+0x76>
+ 1a0:	41 70       	andi	r20, 0x01	; 1
+ 1a2:	f7 01       	movw	r30, r14
+ 1a4:	ee 0f       	add	r30, r30
+ 1a6:	ff 1f       	adc	r31, r31
+ 1a8:	ee 0d       	add	r30, r14
+ 1aa:	ff 1d       	adc	r31, r15
+ 1ac:	ec 0f       	add	r30, r28
+ 1ae:	fd 1f       	adc	r31, r29
+ 1b0:	64 89       	ldd	r22, Z+20	; 0x14
+ 1b2:	82 89       	ldd	r24, Z+18	; 0x12
+ 1b4:	93 89       	ldd	r25, Z+19	; 0x13
+ 1b6:	0e 94 63 01 	call	0x2c6	; 0x2c6 <HAL_GPIO_WRITEPIN>
+		}else{
+		High_Num = 0 ;
+	}
+	}
+
+	for(int i =0 ;i<4 ;i++)
+ 1ba:	ef ef       	ldi	r30, 0xFF	; 255
+ 1bc:	ee 1a       	sub	r14, r30
+ 1be:	fe 0a       	sbc	r15, r30
+ 1c0:	f4 e0       	ldi	r31, 0x04	; 4
+ 1c2:	ef 16       	cp	r14, r31
+ 1c4:	f1 04       	cpc	r15, r1
+ 1c6:	24 f3       	brlt	.-56     	; 0x190 <S7egment_Write+0x6e>
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Bits[i].Port,Segment_Handler->S7eg_Bits[i].Pin_Num,(High_Num>>i)&(0x01));
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Control[S7eg_Num].Port,Segment_Handler->S7eg_Control[S7eg_Num].Pin_Num,1);
+ 1c8:	10 e0       	ldi	r17, 0x00	; 0
+ 1ca:	78 01       	movw	r14, r16
+ 1cc:	ee 0c       	add	r14, r14
+ 1ce:	ff 1c       	adc	r15, r15
+ 1d0:	e0 0e       	add	r14, r16
+ 1d2:	f1 1e       	adc	r15, r17
+ 1d4:	ec 0e       	add	r14, r28
+ 1d6:	fd 1e       	adc	r15, r29
+ 1d8:	41 e0       	ldi	r20, 0x01	; 1
+ 1da:	f7 01       	movw	r30, r14
+ 1dc:	62 81       	ldd	r22, Z+2	; 0x02
+ 1de:	80 81       	ld	r24, Z
+ 1e0:	91 81       	ldd	r25, Z+1	; 0x01
+ 1e2:	0e 94 63 01 	call	0x2c6	; 0x2c6 <HAL_GPIO_WRITEPIN>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 17a:	8f e9       	ldi	r24, 0x9F	; 159
- 17c:	9f e0       	ldi	r25, 0x0F	; 15
- 17e:	01 97       	sbiw	r24, 0x01	; 1
- 180:	f1 f7       	brne	.-4      	; 0x17e <S7egment_Write+0x82>
- 182:	00 c0       	rjmp	.+0      	; 0x184 <S7egment_Write+0x88>
- 184:	00 00       	nop
-	_delay_ms(1);
-	HAL_GPIO_WRITEPIN(S7egment_Handler.Control_S7eg_Port,S7egment_Handler.Num_Of_7Seg , 0);
- 186:	40 e0       	ldi	r20, 0x00	; 0
- 188:	6c 81       	ldd	r22, Y+4	; 0x04
- 18a:	88 81       	ld	r24, Y
- 18c:	99 81       	ldd	r25, Y+1	; 0x01
- 18e:	0e 94 04 01 	call	0x208	; 0x208 <HAL_GPIO_WRITEPIN>
-	HAL_GPIO_WRITEPORT(S7egment_Handler.Seg7_write_Port,0x0f,Low_Num,0x0f);
- 192:	2f e0       	ldi	r18, 0x0F	; 15
- 194:	40 2f       	mov	r20, r16
- 196:	6f e0       	ldi	r22, 0x0F	; 15
- 198:	8a 81       	ldd	r24, Y+2	; 0x02
- 19a:	9b 81       	ldd	r25, Y+3	; 0x03
- 19c:	0e 94 11 01 	call	0x222	; 0x222 <HAL_GPIO_WRITEPORT>
-	HAL_GPIO_WRITEPIN(S7egment_Handler.Control_S7eg_Port,S7eg_Num<<1 ,1);
- 1a0:	6f 2d       	mov	r22, r15
- 1a2:	66 0f       	add	r22, r22
- 1a4:	41 e0       	ldi	r20, 0x01	; 1
- 1a6:	88 81       	ld	r24, Y
- 1a8:	99 81       	ldd	r25, Y+1	; 0x01
- 1aa:	0e 94 04 01 	call	0x208	; 0x208 <HAL_GPIO_WRITEPIN>
- 1ae:	8f e3       	ldi	r24, 0x3F	; 63
- 1b0:	9c e9       	ldi	r25, 0x9C	; 156
- 1b2:	01 97       	sbiw	r24, 0x01	; 1
- 1b4:	f1 f7       	brne	.-4      	; 0x1b2 <S7egment_Write+0xb6>
- 1b6:	00 c0       	rjmp	.+0      	; 0x1b8 <S7egment_Write+0xbc>
- 1b8:	00 00       	nop
-	_delay_ms(10);	
- 1ba:	df 91       	pop	r29
- 1bc:	cf 91       	pop	r28
- 1be:	1f 91       	pop	r17
- 1c0:	0f 91       	pop	r16
- 1c2:	ff 90       	pop	r15
- 1c4:	08 95       	ret
+ 1e6:	8f e3       	ldi	r24, 0x3F	; 63
+ 1e8:	9f e1       	ldi	r25, 0x1F	; 31
+ 1ea:	01 97       	sbiw	r24, 0x01	; 1
+ 1ec:	f1 f7       	brne	.-4      	; 0x1ea <S7egment_Write+0xc8>
+ 1ee:	00 c0       	rjmp	.+0      	; 0x1f0 <S7egment_Write+0xce>
+ 1f0:	00 00       	nop
+	_delay_ms(2);
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Control[S7eg_Num].Port,Segment_Handler->S7eg_Control[S7eg_Num].Pin_Num,0);
+ 1f2:	40 e0       	ldi	r20, 0x00	; 0
+ 1f4:	f7 01       	movw	r30, r14
+ 1f6:	62 81       	ldd	r22, Z+2	; 0x02
+ 1f8:	80 81       	ld	r24, Z
+ 1fa:	91 81       	ldd	r25, Z+1	; 0x01
+ 1fc:	0e 94 63 01 	call	0x2c6	; 0x2c6 <HAL_GPIO_WRITEPIN>
 
-000001c6 <HAL_GPIO_INIT_PIN>:
+	
+	for(int i =0 ;i<4 ;i++)
+ 200:	e1 2c       	mov	r14, r1
+ 202:	f1 2c       	mov	r15, r1
+ 204:	18 c0       	rjmp	.+48     	; 0x236 <S7egment_Write+0x114>
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Bits[i].Port,Segment_Handler->S7eg_Bits[i].Pin_Num,(Low_Num>>i)&(0x01));
+ 206:	4d 2d       	mov	r20, r13
+ 208:	50 e0       	ldi	r21, 0x00	; 0
+ 20a:	0e 2c       	mov	r0, r14
+ 20c:	02 c0       	rjmp	.+4      	; 0x212 <S7egment_Write+0xf0>
+ 20e:	55 95       	asr	r21
+ 210:	47 95       	ror	r20
+ 212:	0a 94       	dec	r0
+ 214:	e2 f7       	brpl	.-8      	; 0x20e <S7egment_Write+0xec>
+ 216:	41 70       	andi	r20, 0x01	; 1
+ 218:	f7 01       	movw	r30, r14
+ 21a:	ee 0f       	add	r30, r30
+ 21c:	ff 1f       	adc	r31, r31
+ 21e:	ee 0d       	add	r30, r14
+ 220:	ff 1d       	adc	r31, r15
+ 222:	ec 0f       	add	r30, r28
+ 224:	fd 1f       	adc	r31, r29
+ 226:	64 89       	ldd	r22, Z+20	; 0x14
+ 228:	82 89       	ldd	r24, Z+18	; 0x12
+ 22a:	93 89       	ldd	r25, Z+19	; 0x13
+ 22c:	0e 94 63 01 	call	0x2c6	; 0x2c6 <HAL_GPIO_WRITEPIN>
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Control[S7eg_Num].Port,Segment_Handler->S7eg_Control[S7eg_Num].Pin_Num,1);
+	_delay_ms(2);
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Control[S7eg_Num].Port,Segment_Handler->S7eg_Control[S7eg_Num].Pin_Num,0);
+
+	
+	for(int i =0 ;i<4 ;i++)
+ 230:	ff ef       	ldi	r31, 0xFF	; 255
+ 232:	ef 1a       	sub	r14, r31
+ 234:	ff 0a       	sbc	r15, r31
+ 236:	84 e0       	ldi	r24, 0x04	; 4
+ 238:	e8 16       	cp	r14, r24
+ 23a:	f1 04       	cpc	r15, r1
+ 23c:	24 f3       	brlt	.-56     	; 0x206 <S7egment_Write+0xe4>
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Bits[i].Port,Segment_Handler->S7eg_Bits[i].Pin_Num,(Low_Num>>i)&(0x01));
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Control[S7eg_Num+1].Port,Segment_Handler->S7eg_Control[S7eg_Num+1].Pin_Num,1);
+ 23e:	0f 5f       	subi	r16, 0xFF	; 255
+ 240:	1f 4f       	sbci	r17, 0xFF	; 255
+ 242:	c8 01       	movw	r24, r16
+ 244:	88 0f       	add	r24, r24
+ 246:	99 1f       	adc	r25, r25
+ 248:	08 0f       	add	r16, r24
+ 24a:	19 1f       	adc	r17, r25
+ 24c:	c0 0f       	add	r28, r16
+ 24e:	d1 1f       	adc	r29, r17
+ 250:	41 e0       	ldi	r20, 0x01	; 1
+ 252:	6a 81       	ldd	r22, Y+2	; 0x02
+ 254:	88 81       	ld	r24, Y
+ 256:	99 81       	ldd	r25, Y+1	; 0x01
+ 258:	0e 94 63 01 	call	0x2c6	; 0x2c6 <HAL_GPIO_WRITEPIN>
+ 25c:	ef e3       	ldi	r30, 0x3F	; 63
+ 25e:	fc e9       	ldi	r31, 0x9C	; 156
+ 260:	31 97       	sbiw	r30, 0x01	; 1
+ 262:	f1 f7       	brne	.-4      	; 0x260 <S7egment_Write+0x13e>
+ 264:	00 c0       	rjmp	.+0      	; 0x266 <S7egment_Write+0x144>
+ 266:	00 00       	nop
+	_delay_ms(10);	
+	HAL_GPIO_WRITEPIN(Segment_Handler->S7eg_Control[S7eg_Num+1].Port,Segment_Handler->S7eg_Control[S7eg_Num+1].Pin_Num,0);
+ 268:	40 e0       	ldi	r20, 0x00	; 0
+ 26a:	6a 81       	ldd	r22, Y+2	; 0x02
+ 26c:	88 81       	ld	r24, Y
+ 26e:	99 81       	ldd	r25, Y+1	; 0x01
+ 270:	0e 94 63 01 	call	0x2c6	; 0x2c6 <HAL_GPIO_WRITEPIN>
+ 274:	df 91       	pop	r29
+ 276:	cf 91       	pop	r28
+ 278:	1f 91       	pop	r17
+ 27a:	0f 91       	pop	r16
+ 27c:	ff 90       	pop	r15
+ 27e:	ef 90       	pop	r14
+ 280:	df 90       	pop	r13
+ 282:	08 95       	ret
+
+00000284 <HAL_GPIO_INIT_PIN>:
 	}
 	else              /* if read pin is zero */
 	{
 		return GPIO_PIN_RESET ;
 	}
 }/* END_FUN HAL_GPIO_READPIN()*/
- 1c6:	dc 01       	movw	r26, r24
- 1c8:	fb 01       	movw	r30, r22
- 1ca:	81 81       	ldd	r24, Z+1	; 0x01
- 1cc:	81 30       	cpi	r24, 0x01	; 1
- 1ce:	99 f4       	brne	.+38     	; 0x1f6 <HAL_GPIO_INIT_PIN+0x30>
- 1d0:	80 81       	ld	r24, Z
- 1d2:	11 96       	adiw	r26, 0x01	; 1
- 1d4:	9c 91       	ld	r25, X
- 1d6:	11 97       	sbiw	r26, 0x01	; 1
- 1d8:	89 2b       	or	r24, r25
- 1da:	11 96       	adiw	r26, 0x01	; 1
- 1dc:	8c 93       	st	X, r24
- 1de:	11 97       	sbiw	r26, 0x01	; 1
- 1e0:	82 81       	ldd	r24, Z+2	; 0x02
- 1e2:	81 30       	cpi	r24, 0x01	; 1
- 1e4:	81 f4       	brne	.+32     	; 0x206 <HAL_GPIO_INIT_PIN+0x40>
- 1e6:	80 81       	ld	r24, Z
- 1e8:	12 96       	adiw	r26, 0x02	; 2
- 1ea:	9c 91       	ld	r25, X
- 1ec:	12 97       	sbiw	r26, 0x02	; 2
- 1ee:	89 2b       	or	r24, r25
- 1f0:	12 96       	adiw	r26, 0x02	; 2
- 1f2:	8c 93       	st	X, r24
- 1f4:	08 95       	ret
- 1f6:	90 81       	ld	r25, Z
- 1f8:	90 95       	com	r25
- 1fa:	11 96       	adiw	r26, 0x01	; 1
- 1fc:	8c 91       	ld	r24, X
- 1fe:	11 97       	sbiw	r26, 0x01	; 1
- 200:	98 23       	and	r25, r24
- 202:	11 96       	adiw	r26, 0x01	; 1
- 204:	9c 93       	st	X, r25
- 206:	08 95       	ret
+ 284:	dc 01       	movw	r26, r24
+ 286:	fb 01       	movw	r30, r22
+ 288:	81 81       	ldd	r24, Z+1	; 0x01
+ 28a:	81 30       	cpi	r24, 0x01	; 1
+ 28c:	99 f4       	brne	.+38     	; 0x2b4 <HAL_GPIO_INIT_PIN+0x30>
+ 28e:	80 81       	ld	r24, Z
+ 290:	11 96       	adiw	r26, 0x01	; 1
+ 292:	9c 91       	ld	r25, X
+ 294:	11 97       	sbiw	r26, 0x01	; 1
+ 296:	89 2b       	or	r24, r25
+ 298:	11 96       	adiw	r26, 0x01	; 1
+ 29a:	8c 93       	st	X, r24
+ 29c:	11 97       	sbiw	r26, 0x01	; 1
+ 29e:	82 81       	ldd	r24, Z+2	; 0x02
+ 2a0:	81 30       	cpi	r24, 0x01	; 1
+ 2a2:	81 f4       	brne	.+32     	; 0x2c4 <HAL_GPIO_INIT_PIN+0x40>
+ 2a4:	80 81       	ld	r24, Z
+ 2a6:	12 96       	adiw	r26, 0x02	; 2
+ 2a8:	9c 91       	ld	r25, X
+ 2aa:	12 97       	sbiw	r26, 0x02	; 2
+ 2ac:	89 2b       	or	r24, r25
+ 2ae:	12 96       	adiw	r26, 0x02	; 2
+ 2b0:	8c 93       	st	X, r24
+ 2b2:	08 95       	ret
+ 2b4:	90 81       	ld	r25, Z
+ 2b6:	90 95       	com	r25
+ 2b8:	11 96       	adiw	r26, 0x01	; 1
+ 2ba:	8c 91       	ld	r24, X
+ 2bc:	11 97       	sbiw	r26, 0x01	; 1
+ 2be:	98 23       	and	r25, r24
+ 2c0:	11 96       	adiw	r26, 0x01	; 1
+ 2c2:	9c 93       	st	X, r25
+ 2c4:	08 95       	ret
 
-00000208 <HAL_GPIO_WRITEPIN>:
+000002c6 <HAL_GPIO_WRITEPIN>:
  * param. : PIN_NUM the pin number must be one of GPIO_PIN_RESET or GPIO_PIN_SET
  * return : void  
  */
 void HAL_GPIO_WRITEPIN(GPIO_TypeDef * PORT,uint8_t PIN_NUM,GPIO_PinState PIN_STATE)
 {
 	if(PIN_STATE != GPIO_PIN_RESET)
- 208:	44 23       	and	r20, r20
- 20a:	29 f0       	breq	.+10     	; 0x216 <HAL_GPIO_WRITEPIN+0xe>
+ 2c6:	44 23       	and	r20, r20
+ 2c8:	29 f0       	breq	.+10     	; 0x2d4 <HAL_GPIO_WRITEPIN+0xe>
 	{
 		PORT->PORT_REG |= PIN_NUM ;
- 20c:	fc 01       	movw	r30, r24
- 20e:	22 81       	ldd	r18, Z+2	; 0x02
- 210:	62 2b       	or	r22, r18
- 212:	62 83       	std	Z+2, r22	; 0x02
- 214:	08 95       	ret
+ 2ca:	fc 01       	movw	r30, r24
+ 2cc:	22 81       	ldd	r18, Z+2	; 0x02
+ 2ce:	62 2b       	or	r22, r18
+ 2d0:	62 83       	std	Z+2, r22	; 0x02
+ 2d2:	08 95       	ret
 	}
 	else
 	{
 		PORT->PORT_REG &= ~(PIN_NUM);
- 216:	60 95       	com	r22
- 218:	fc 01       	movw	r30, r24
- 21a:	22 81       	ldd	r18, Z+2	; 0x02
- 21c:	62 23       	and	r22, r18
- 21e:	62 83       	std	Z+2, r22	; 0x02
- 220:	08 95       	ret
+ 2d4:	60 95       	com	r22
+ 2d6:	fc 01       	movw	r30, r24
+ 2d8:	22 81       	ldd	r18, Z+2	; 0x02
+ 2da:	62 23       	and	r22, r18
+ 2dc:	62 83       	std	Z+2, r22	; 0x02
+ 2de:	08 95       	ret
 
-00000222 <HAL_GPIO_WRITEPORT>:
- * param. : PINS  the pins need to write this value to  
- * param. : PINS_STATE the pins state 
- * return : void  
- */
-void HAL_GPIO_WRITEPORT(GPIO_TypeDef * PORT,uint8_t PINS,GPIO_PinState PINS_Value,uint8_t Pins_Mask)
-{
- 222:	fc 01       	movw	r30, r24
-	PORT->PORT_REG &=~(PINS);
- 224:	60 95       	com	r22
- 226:	92 81       	ldd	r25, Z+2	; 0x02
- 228:	69 23       	and	r22, r25
-	PORT->PORT_REG |=(PINS_Value & Pins_Mask);
- 22a:	24 23       	and	r18, r20
- 22c:	26 2b       	or	r18, r22
- 22e:	22 83       	std	Z+2, r18	; 0x02
- 230:	08 95       	ret
-
-00000232 <I2C_INIT_FUN>:
+000002e0 <I2C_INIT_FUN>:
 I2C_STATUS HAL_I2C_Slave_Receive_IT(I2C_Handler_t * Handler  ,uint8_t * pRxData ,uint8_t DataSize )
 {
 	
 	
 	
 }
- 232:	8f 92       	push	r8
- 234:	9f 92       	push	r9
- 236:	af 92       	push	r10
- 238:	bf 92       	push	r11
- 23a:	cf 92       	push	r12
- 23c:	df 92       	push	r13
- 23e:	ef 92       	push	r14
- 240:	ff 92       	push	r15
- 242:	0f 93       	push	r16
- 244:	cf 93       	push	r28
- 246:	df 93       	push	r29
- 248:	ec 01       	movw	r28, r24
- 24a:	28 81       	ld	r18, Y
- 24c:	39 81       	ldd	r19, Y+1	; 0x01
- 24e:	4a 81       	ldd	r20, Y+2	; 0x02
- 250:	5b 81       	ldd	r21, Y+3	; 0x03
- 252:	60 e0       	ldi	r22, 0x00	; 0
- 254:	74 e2       	ldi	r23, 0x24	; 36
- 256:	84 ef       	ldi	r24, 0xF4	; 244
- 258:	90 e0       	ldi	r25, 0x00	; 0
- 25a:	0e 94 fd 02 	call	0x5fa	; 0x5fa <__udivmodsi4>
- 25e:	49 01       	movw	r8, r18
- 260:	5a 01       	movw	r10, r20
- 262:	39 2d       	mov	r19, r9
- 264:	4a 2d       	mov	r20, r10
- 266:	5b 2d       	mov	r21, r11
- 268:	60 e0       	ldi	r22, 0x00	; 0
- 26a:	70 e0       	ldi	r23, 0x00	; 0
- 26c:	80 e0       	ldi	r24, 0x00	; 0
- 26e:	90 e0       	ldi	r25, 0x00	; 0
- 270:	a0 ef       	ldi	r26, 0xF0	; 240
- 272:	0e 94 3d 03 	call	0x67a	; 0x67a <__adddi3_s8>
- 276:	01 e0       	ldi	r16, 0x01	; 1
- 278:	0e 94 21 03 	call	0x642	; 0x642 <__lshrdi3>
- 27c:	20 b9       	out	0x00, r18	; 0
- 27e:	8c 81       	ldd	r24, Y+4	; 0x04
- 280:	82 b9       	out	0x02, r24	; 2
- 282:	16 be       	out	0x36, r1	; 54
- 284:	11 b8       	out	0x01, r1	; 1
- 286:	8d 81       	ldd	r24, Y+5	; 0x05
- 288:	81 30       	cpi	r24, 0x01	; 1
- 28a:	29 f4       	brne	.+10     	; 0x296 <I2C_INIT_FUN+0x64>
- 28c:	78 94       	sei
- 28e:	86 b7       	in	r24, 0x36	; 54
- 290:	81 60       	ori	r24, 0x01	; 1
- 292:	86 bf       	out	0x36, r24	; 54
- 294:	03 c0       	rjmp	.+6      	; 0x29c <I2C_INIT_FUN+0x6a>
- 296:	86 b7       	in	r24, 0x36	; 54
- 298:	8e 7f       	andi	r24, 0xFE	; 254
- 29a:	86 bf       	out	0x36, r24	; 54
- 29c:	df 91       	pop	r29
- 29e:	cf 91       	pop	r28
- 2a0:	0f 91       	pop	r16
- 2a2:	ff 90       	pop	r15
- 2a4:	ef 90       	pop	r14
- 2a6:	df 90       	pop	r13
- 2a8:	cf 90       	pop	r12
- 2aa:	bf 90       	pop	r11
- 2ac:	af 90       	pop	r10
- 2ae:	9f 90       	pop	r9
- 2b0:	8f 90       	pop	r8
- 2b2:	08 95       	ret
+ 2e0:	8f 92       	push	r8
+ 2e2:	9f 92       	push	r9
+ 2e4:	af 92       	push	r10
+ 2e6:	bf 92       	push	r11
+ 2e8:	cf 92       	push	r12
+ 2ea:	df 92       	push	r13
+ 2ec:	ef 92       	push	r14
+ 2ee:	ff 92       	push	r15
+ 2f0:	0f 93       	push	r16
+ 2f2:	cf 93       	push	r28
+ 2f4:	df 93       	push	r29
+ 2f6:	ec 01       	movw	r28, r24
+ 2f8:	28 81       	ld	r18, Y
+ 2fa:	39 81       	ldd	r19, Y+1	; 0x01
+ 2fc:	4a 81       	ldd	r20, Y+2	; 0x02
+ 2fe:	5b 81       	ldd	r21, Y+3	; 0x03
+ 300:	60 e0       	ldi	r22, 0x00	; 0
+ 302:	74 e2       	ldi	r23, 0x24	; 36
+ 304:	84 ef       	ldi	r24, 0xF4	; 244
+ 306:	90 e0       	ldi	r25, 0x00	; 0
+ 308:	0e 94 53 03 	call	0x6a6	; 0x6a6 <__udivmodsi4>
+ 30c:	49 01       	movw	r8, r18
+ 30e:	5a 01       	movw	r10, r20
+ 310:	39 2d       	mov	r19, r9
+ 312:	4a 2d       	mov	r20, r10
+ 314:	5b 2d       	mov	r21, r11
+ 316:	60 e0       	ldi	r22, 0x00	; 0
+ 318:	70 e0       	ldi	r23, 0x00	; 0
+ 31a:	80 e0       	ldi	r24, 0x00	; 0
+ 31c:	90 e0       	ldi	r25, 0x00	; 0
+ 31e:	a0 ef       	ldi	r26, 0xF0	; 240
+ 320:	0e 94 93 03 	call	0x726	; 0x726 <__adddi3_s8>
+ 324:	01 e0       	ldi	r16, 0x01	; 1
+ 326:	0e 94 77 03 	call	0x6ee	; 0x6ee <__lshrdi3>
+ 32a:	20 b9       	out	0x00, r18	; 0
+ 32c:	8c 81       	ldd	r24, Y+4	; 0x04
+ 32e:	82 b9       	out	0x02, r24	; 2
+ 330:	16 be       	out	0x36, r1	; 54
+ 332:	11 b8       	out	0x01, r1	; 1
+ 334:	8d 81       	ldd	r24, Y+5	; 0x05
+ 336:	81 30       	cpi	r24, 0x01	; 1
+ 338:	29 f4       	brne	.+10     	; 0x344 <I2C_INIT_FUN+0x64>
+ 33a:	78 94       	sei
+ 33c:	86 b7       	in	r24, 0x36	; 54
+ 33e:	81 60       	ori	r24, 0x01	; 1
+ 340:	86 bf       	out	0x36, r24	; 54
+ 342:	03 c0       	rjmp	.+6      	; 0x34a <I2C_INIT_FUN+0x6a>
+ 344:	86 b7       	in	r24, 0x36	; 54
+ 346:	8e 7f       	andi	r24, 0xFE	; 254
+ 348:	86 bf       	out	0x36, r24	; 54
+ 34a:	df 91       	pop	r29
+ 34c:	cf 91       	pop	r28
+ 34e:	0f 91       	pop	r16
+ 350:	ff 90       	pop	r15
+ 352:	ef 90       	pop	r14
+ 354:	df 90       	pop	r13
+ 356:	cf 90       	pop	r12
+ 358:	bf 90       	pop	r11
+ 35a:	af 90       	pop	r10
+ 35c:	9f 90       	pop	r9
+ 35e:	8f 90       	pop	r8
+ 360:	08 95       	ret
 
-000002b4 <HAL_I2C_Mem_Write>:
+00000362 <HAL_I2C_Mem_Write>:
  * param. @ : memAdd this is the internal memory address that you need to write data to 
  * param. @ : pRxData this is pointer to the buffer that hold the writing data 
  * param. @ : DataSize number of bytes that you need to write 
 */ 
 I2C_STATUS HAL_I2C_Mem_Write(I2C_Handler_t * Handler ,uint8_t DevAdd,uint8_t MemAdd ,uint8_t * pTxData ,uint8_t DataSize )
 {
- 2b4:	0f 93       	push	r16
- 2b6:	fc 01       	movw	r30, r24
+ 362:	0f 93       	push	r16
+ 364:	fc 01       	movw	r30, r24
 	Handler->buffer = pTxData ;
- 2b8:	37 83       	std	Z+7, r19	; 0x07
- 2ba:	26 83       	std	Z+6, r18	; 0x06
+ 366:	37 83       	std	Z+7, r19	; 0x07
+ 368:	26 83       	std	Z+6, r18	; 0x06
 	Handler->Size   = DataSize;
- 2bc:	00 87       	std	Z+8, r16	; 0x08
+ 36a:	00 87       	std	Z+8, r16	; 0x08
 	
 	
 	I2C_EN_START();
- 2be:	84 ea       	ldi	r24, 0xA4	; 164
- 2c0:	86 bf       	out	0x36, r24	; 54
+ 36c:	84 ea       	ldi	r24, 0xA4	; 164
+ 36e:	86 bf       	out	0x36, r24	; 54
 	while(!(I2C->I2C_TWCR & 0x80));
- 2c2:	06 b6       	in	r0, 0x36	; 54
- 2c4:	07 fe       	sbrs	r0, 7
- 2c6:	fd cf       	rjmp	.-6      	; 0x2c2 <HAL_I2C_Mem_Write+0xe>
+ 370:	06 b6       	in	r0, 0x36	; 54
+ 372:	07 fe       	sbrs	r0, 7
+ 374:	fd cf       	rjmp	.-6      	; 0x370 <HAL_I2C_Mem_Write+0xe>
 	
 	
 	I2C->I2C_TWDR = DevAdd ;
- 2c8:	63 b9       	out	0x03, r22	; 3
+ 376:	63 b9       	out	0x03, r22	; 3
 	I2C_EN();
- 2ca:	84 e8       	ldi	r24, 0x84	; 132
- 2cc:	86 bf       	out	0x36, r24	; 54
+ 378:	84 e8       	ldi	r24, 0x84	; 132
+ 37a:	86 bf       	out	0x36, r24	; 54
 	while(!(I2C->I2C_TWCR & 0x80));
- 2ce:	06 b6       	in	r0, 0x36	; 54
- 2d0:	07 fe       	sbrs	r0, 7
- 2d2:	fd cf       	rjmp	.-6      	; 0x2ce <HAL_I2C_Mem_Write+0x1a>
+ 37c:	06 b6       	in	r0, 0x36	; 54
+ 37e:	07 fe       	sbrs	r0, 7
+ 380:	fd cf       	rjmp	.-6      	; 0x37c <HAL_I2C_Mem_Write+0x1a>
 
 	I2C->I2C_TWDR = MemAdd;
- 2d4:	43 b9       	out	0x03, r20	; 3
+ 382:	43 b9       	out	0x03, r20	; 3
 	I2C_EN();
- 2d6:	84 e8       	ldi	r24, 0x84	; 132
- 2d8:	86 bf       	out	0x36, r24	; 54
+ 384:	84 e8       	ldi	r24, 0x84	; 132
+ 386:	86 bf       	out	0x36, r24	; 54
 	while(!(I2C->I2C_TWCR & 0x80));
- 2da:	06 b6       	in	r0, 0x36	; 54
- 2dc:	07 fe       	sbrs	r0, 7
- 2de:	fd cf       	rjmp	.-6      	; 0x2da <HAL_I2C_Mem_Write+0x26>
- 2e0:	0d c0       	rjmp	.+26     	; 0x2fc <HAL_I2C_Mem_Write+0x48>
+ 388:	06 b6       	in	r0, 0x36	; 54
+ 38a:	07 fe       	sbrs	r0, 7
+ 38c:	fd cf       	rjmp	.-6      	; 0x388 <HAL_I2C_Mem_Write+0x26>
+ 38e:	0d c0       	rjmp	.+26     	; 0x3aa <HAL_I2C_Mem_Write+0x48>
 	
 
 	while(Handler->Size-- > 0)
 	{
 		I2C->I2C_TWDR = *(Handler->buffer++) ;
- 2e2:	a6 81       	ldd	r26, Z+6	; 0x06
- 2e4:	b7 81       	ldd	r27, Z+7	; 0x07
- 2e6:	cd 01       	movw	r24, r26
- 2e8:	01 96       	adiw	r24, 0x01	; 1
- 2ea:	97 83       	std	Z+7, r25	; 0x07
- 2ec:	86 83       	std	Z+6, r24	; 0x06
- 2ee:	8c 91       	ld	r24, X
- 2f0:	83 b9       	out	0x03, r24	; 3
+ 390:	a6 81       	ldd	r26, Z+6	; 0x06
+ 392:	b7 81       	ldd	r27, Z+7	; 0x07
+ 394:	cd 01       	movw	r24, r26
+ 396:	01 96       	adiw	r24, 0x01	; 1
+ 398:	97 83       	std	Z+7, r25	; 0x07
+ 39a:	86 83       	std	Z+6, r24	; 0x06
+ 39c:	8c 91       	ld	r24, X
+ 39e:	83 b9       	out	0x03, r24	; 3
 		I2C_EN();
- 2f2:	84 e8       	ldi	r24, 0x84	; 132
- 2f4:	86 bf       	out	0x36, r24	; 54
+ 3a0:	84 e8       	ldi	r24, 0x84	; 132
+ 3a2:	86 bf       	out	0x36, r24	; 54
 		while(!(I2C->I2C_TWCR & 0x80));
- 2f6:	06 b6       	in	r0, 0x36	; 54
- 2f8:	07 fe       	sbrs	r0, 7
- 2fa:	fd cf       	rjmp	.-6      	; 0x2f6 <HAL_I2C_Mem_Write+0x42>
+ 3a4:	06 b6       	in	r0, 0x36	; 54
+ 3a6:	07 fe       	sbrs	r0, 7
+ 3a8:	fd cf       	rjmp	.-6      	; 0x3a4 <HAL_I2C_Mem_Write+0x42>
 	I2C->I2C_TWDR = MemAdd;
 	I2C_EN();
 	while(!(I2C->I2C_TWCR & 0x80));
 	
 
 	while(Handler->Size-- > 0)
- 2fc:	80 85       	ldd	r24, Z+8	; 0x08
- 2fe:	9f ef       	ldi	r25, 0xFF	; 255
- 300:	98 0f       	add	r25, r24
- 302:	90 87       	std	Z+8, r25	; 0x08
- 304:	81 11       	cpse	r24, r1
- 306:	ed cf       	rjmp	.-38     	; 0x2e2 <HAL_I2C_Mem_Write+0x2e>
+ 3aa:	80 85       	ldd	r24, Z+8	; 0x08
+ 3ac:	9f ef       	ldi	r25, 0xFF	; 255
+ 3ae:	98 0f       	add	r25, r24
+ 3b0:	90 87       	std	Z+8, r25	; 0x08
+ 3b2:	81 11       	cpse	r24, r1
+ 3b4:	ed cf       	rjmp	.-38     	; 0x390 <HAL_I2C_Mem_Write+0x2e>
 	{
 		I2C->I2C_TWDR = *(Handler->buffer++) ;
 		I2C_EN();
 		while(!(I2C->I2C_TWCR & 0x80));
 	}
 	I2C_EN_STOP();
- 308:	84 e9       	ldi	r24, 0x94	; 148
- 30a:	86 bf       	out	0x36, r24	; 54
+ 3b6:	84 e9       	ldi	r24, 0x94	; 148
+ 3b8:	86 bf       	out	0x36, r24	; 54
 	
 	
 }
- 30c:	0f 91       	pop	r16
- 30e:	08 95       	ret
+ 3ba:	0f 91       	pop	r16
+ 3bc:	08 95       	ret
 
-00000310 <HAL_I2C_Mem_Read>:
+000003be <HAL_I2C_Mem_Read>:
  * param. @ : memAdd this is the internal memory address that you need to read data from it 
  * param. @ : pRxData this is pointer to the buffer that will hold the reading data 
  * param. @ : DataSize number of bytes that you need to read 
 */ 
 I2C_STATUS HAL_I2C_Mem_Read(I2C_Handler_t * Handler ,uint8_t DevAdd,uint8_t MemAdd ,uint8_t * pRxData ,uint8_t DataSize )
 {
- 310:	0f 93       	push	r16
- 312:	fc 01       	movw	r30, r24
+ 3be:	0f 93       	push	r16
+ 3c0:	fc 01       	movw	r30, r24
 	Handler->buffer = pRxData ;
- 314:	37 83       	std	Z+7, r19	; 0x07
- 316:	26 83       	std	Z+6, r18	; 0x06
+ 3c2:	37 83       	std	Z+7, r19	; 0x07
+ 3c4:	26 83       	std	Z+6, r18	; 0x06
 	Handler->Size   = DataSize;
- 318:	00 87       	std	Z+8, r16	; 0x08
+ 3c6:	00 87       	std	Z+8, r16	; 0x08
 	
 	I2C_EN_START();
- 31a:	84 ea       	ldi	r24, 0xA4	; 164
- 31c:	86 bf       	out	0x36, r24	; 54
+ 3c8:	84 ea       	ldi	r24, 0xA4	; 164
+ 3ca:	86 bf       	out	0x36, r24	; 54
 	while(!(I2C->I2C_TWCR & 0x80));
- 31e:	06 b6       	in	r0, 0x36	; 54
- 320:	07 fe       	sbrs	r0, 7
- 322:	fd cf       	rjmp	.-6      	; 0x31e <HAL_I2C_Mem_Read+0xe>
+ 3cc:	06 b6       	in	r0, 0x36	; 54
+ 3ce:	07 fe       	sbrs	r0, 7
+ 3d0:	fd cf       	rjmp	.-6      	; 0x3cc <HAL_I2C_Mem_Read+0xe>
 	
 	
 	I2C->I2C_TWDR = DevAdd ;
- 324:	63 b9       	out	0x03, r22	; 3
+ 3d2:	63 b9       	out	0x03, r22	; 3
 	I2C_EN();
- 326:	84 e8       	ldi	r24, 0x84	; 132
- 328:	86 bf       	out	0x36, r24	; 54
+ 3d4:	84 e8       	ldi	r24, 0x84	; 132
+ 3d6:	86 bf       	out	0x36, r24	; 54
 	while(!(I2C->I2C_TWCR & 0x80));
- 32a:	06 b6       	in	r0, 0x36	; 54
- 32c:	07 fe       	sbrs	r0, 7
- 32e:	fd cf       	rjmp	.-6      	; 0x32a <HAL_I2C_Mem_Read+0x1a>
+ 3d8:	06 b6       	in	r0, 0x36	; 54
+ 3da:	07 fe       	sbrs	r0, 7
+ 3dc:	fd cf       	rjmp	.-6      	; 0x3d8 <HAL_I2C_Mem_Read+0x1a>
 
 	I2C->I2C_TWDR = MemAdd;
- 330:	43 b9       	out	0x03, r20	; 3
+ 3de:	43 b9       	out	0x03, r20	; 3
 	I2C_EN();
- 332:	84 e8       	ldi	r24, 0x84	; 132
- 334:	86 bf       	out	0x36, r24	; 54
+ 3e0:	84 e8       	ldi	r24, 0x84	; 132
+ 3e2:	86 bf       	out	0x36, r24	; 54
 	while(!(I2C->I2C_TWCR & 0x80));
- 336:	06 b6       	in	r0, 0x36	; 54
- 338:	07 fe       	sbrs	r0, 7
- 33a:	fd cf       	rjmp	.-6      	; 0x336 <HAL_I2C_Mem_Read+0x26>
+ 3e4:	06 b6       	in	r0, 0x36	; 54
+ 3e6:	07 fe       	sbrs	r0, 7
+ 3e8:	fd cf       	rjmp	.-6      	; 0x3e4 <HAL_I2C_Mem_Read+0x26>
 	
 	
 	I2C_EN_START();
- 33c:	84 ea       	ldi	r24, 0xA4	; 164
- 33e:	86 bf       	out	0x36, r24	; 54
+ 3ea:	84 ea       	ldi	r24, 0xA4	; 164
+ 3ec:	86 bf       	out	0x36, r24	; 54
 	while(!(I2C->I2C_TWCR & 0x80));	
- 340:	06 b6       	in	r0, 0x36	; 54
- 342:	07 fe       	sbrs	r0, 7
- 344:	fd cf       	rjmp	.-6      	; 0x340 <HAL_I2C_Mem_Read+0x30>
+ 3ee:	06 b6       	in	r0, 0x36	; 54
+ 3f0:	07 fe       	sbrs	r0, 7
+ 3f2:	fd cf       	rjmp	.-6      	; 0x3ee <HAL_I2C_Mem_Read+0x30>
 
 	I2C->I2C_TWDR = DevAdd | 1 ;
- 346:	61 60       	ori	r22, 0x01	; 1
- 348:	63 b9       	out	0x03, r22	; 3
+ 3f4:	61 60       	ori	r22, 0x01	; 1
+ 3f6:	63 b9       	out	0x03, r22	; 3
 	I2C_EN();
- 34a:	84 e8       	ldi	r24, 0x84	; 132
- 34c:	86 bf       	out	0x36, r24	; 54
+ 3f8:	84 e8       	ldi	r24, 0x84	; 132
+ 3fa:	86 bf       	out	0x36, r24	; 54
 	while(!(I2C->I2C_TWCR & 0x80));
- 34e:	06 b6       	in	r0, 0x36	; 54
- 350:	07 fe       	sbrs	r0, 7
- 352:	fd cf       	rjmp	.-6      	; 0x34e <HAL_I2C_Mem_Read+0x3e>
- 354:	0d c0       	rjmp	.+26     	; 0x370 <HAL_I2C_Mem_Read+0x60>
+ 3fc:	06 b6       	in	r0, 0x36	; 54
+ 3fe:	07 fe       	sbrs	r0, 7
+ 400:	fd cf       	rjmp	.-6      	; 0x3fc <HAL_I2C_Mem_Read+0x3e>
+ 402:	0d c0       	rjmp	.+26     	; 0x41e <__EEPROM_REGION_LENGTH__+0x1e>
 	
 		
 	while(Handler->Size-- > 0)
 	{
 		I2C_EN_ACK();
- 356:	84 ec       	ldi	r24, 0xC4	; 196
- 358:	86 bf       	out	0x36, r24	; 54
+ 404:	84 ec       	ldi	r24, 0xC4	; 196
+ 406:	86 bf       	out	0x36, r24	; 54
 		while(!(I2C->I2C_TWCR & 0x80));
- 35a:	06 b6       	in	r0, 0x36	; 54
- 35c:	07 fe       	sbrs	r0, 7
- 35e:	fd cf       	rjmp	.-6      	; 0x35a <HAL_I2C_Mem_Read+0x4a>
+ 408:	06 b6       	in	r0, 0x36	; 54
+ 40a:	07 fe       	sbrs	r0, 7
+ 40c:	fd cf       	rjmp	.-6      	; 0x408 <__EEPROM_REGION_LENGTH__+0x8>
 		*(Handler->buffer++) = I2C->I2C_TWDR ;
- 360:	a6 81       	ldd	r26, Z+6	; 0x06
- 362:	b7 81       	ldd	r27, Z+7	; 0x07
- 364:	cd 01       	movw	r24, r26
- 366:	01 96       	adiw	r24, 0x01	; 1
- 368:	97 83       	std	Z+7, r25	; 0x07
- 36a:	86 83       	std	Z+6, r24	; 0x06
- 36c:	83 b1       	in	r24, 0x03	; 3
- 36e:	8c 93       	st	X, r24
+ 40e:	a6 81       	ldd	r26, Z+6	; 0x06
+ 410:	b7 81       	ldd	r27, Z+7	; 0x07
+ 412:	cd 01       	movw	r24, r26
+ 414:	01 96       	adiw	r24, 0x01	; 1
+ 416:	97 83       	std	Z+7, r25	; 0x07
+ 418:	86 83       	std	Z+6, r24	; 0x06
+ 41a:	83 b1       	in	r24, 0x03	; 3
+ 41c:	8c 93       	st	X, r24
 	I2C->I2C_TWDR = DevAdd | 1 ;
 	I2C_EN();
 	while(!(I2C->I2C_TWCR & 0x80));
 	
 		
 	while(Handler->Size-- > 0)
- 370:	80 85       	ldd	r24, Z+8	; 0x08
- 372:	9f ef       	ldi	r25, 0xFF	; 255
- 374:	98 0f       	add	r25, r24
- 376:	90 87       	std	Z+8, r25	; 0x08
- 378:	81 11       	cpse	r24, r1
- 37a:	ed cf       	rjmp	.-38     	; 0x356 <HAL_I2C_Mem_Read+0x46>
+ 41e:	80 85       	ldd	r24, Z+8	; 0x08
+ 420:	9f ef       	ldi	r25, 0xFF	; 255
+ 422:	98 0f       	add	r25, r24
+ 424:	90 87       	std	Z+8, r25	; 0x08
+ 426:	81 11       	cpse	r24, r1
+ 428:	ed cf       	rjmp	.-38     	; 0x404 <__EEPROM_REGION_LENGTH__+0x4>
 	{
 		I2C_EN_ACK();
 		while(!(I2C->I2C_TWCR & 0x80));
 		*(Handler->buffer++) = I2C->I2C_TWDR ;
 	}
 	I2C_EN_NACK();
- 37c:	84 e8       	ldi	r24, 0x84	; 132
- 37e:	86 bf       	out	0x36, r24	; 54
+ 42a:	84 e8       	ldi	r24, 0x84	; 132
+ 42c:	86 bf       	out	0x36, r24	; 54
 	while(!(I2C->I2C_TWCR & 0x80));	
- 380:	06 b6       	in	r0, 0x36	; 54
- 382:	07 fe       	sbrs	r0, 7
- 384:	fd cf       	rjmp	.-6      	; 0x380 <HAL_I2C_Mem_Read+0x70>
+ 42e:	06 b6       	in	r0, 0x36	; 54
+ 430:	07 fe       	sbrs	r0, 7
+ 432:	fd cf       	rjmp	.-6      	; 0x42e <__EEPROM_REGION_LENGTH__+0x2e>
 	I2C_EN_STOP();
- 386:	84 e9       	ldi	r24, 0x94	; 148
- 388:	86 bf       	out	0x36, r24	; 54
+ 434:	84 e9       	ldi	r24, 0x94	; 148
+ 436:	86 bf       	out	0x36, r24	; 54
 		
 }
- 38a:	0f 91       	pop	r16
- 38c:	08 95       	ret
+ 438:	0f 91       	pop	r16
+ 43a:	08 95       	ret
 
-0000038e <main>:
-Time_Typedef  Time ={.Hours =10 ,.Minutes = 20 ,.RTC_Time_Format = RTC_Format_BIN },gettime ={.RTC_Time_Format = RTC_Format_BIN};
-Date_Typedef  Date ={.Day = 1 ,.Year = 20,.month = 11,.RTC_Time_Format = RTC_Format_BIN};
+0000043c <main>:
+};
+
+
 int main(void)
 {
-	uint8_t num =0 ;
 	DS1305_Init();
- 38e:	0e 94 ef 01 	call	0x3de	; 0x3de <DS1305_Init>
+ 43c:	0e 94 45 02 	call	0x48a	; 0x48a <DS1305_Init>
+	S7egment_Init(&S7egHendler);
+ 440:	80 e6       	ldi	r24, 0x60	; 96
+ 442:	90 e0       	ldi	r25, 0x00	; 0
+ 444:	0e 94 49 00 	call	0x92	; 0x92 <S7egment_Init>
 	RTC_Set_Time(&Time);
- 392:	8a e6       	ldi	r24, 0x6A	; 106
- 394:	90 e0       	ldi	r25, 0x00	; 0
- 396:	0e 94 78 02 	call	0x4f0	; 0x4f0 <RTC_Set_Time>
+ 448:	88 e8       	ldi	r24, 0x88	; 136
+ 44a:	90 e0       	ldi	r25, 0x00	; 0
+ 44c:	0e 94 ce 02 	call	0x59c	; 0x59c <RTC_Set_Time>
 	RTC_Set_Date(&Date);
- 39a:	80 e6       	ldi	r24, 0x60	; 96
- 39c:	90 e0       	ldi	r25, 0x00	; 0
- 39e:	0e 94 c0 02 	call	0x580	; 0x580 <RTC_Set_Date>
-	S7egment_Init(GPIOD ,GPIOB, 0X3F);
- 3a2:	4f e3       	ldi	r20, 0x3F	; 63
- 3a4:	66 e3       	ldi	r22, 0x36	; 54
- 3a6:	70 e0       	ldi	r23, 0x00	; 0
- 3a8:	80 e3       	ldi	r24, 0x30	; 48
- 3aa:	90 e0       	ldi	r25, 0x00	; 0
- 3ac:	0e 94 49 00 	call	0x92	; 0x92 <S7egment_Init>
-	S7egment_Write(7 ,GPIO_PIN_0);
- 3b0:	61 e0       	ldi	r22, 0x01	; 1
- 3b2:	87 e0       	ldi	r24, 0x07	; 7
- 3b4:	0e 94 7e 00 	call	0xfc	; 0xfc <S7egment_Write>
-    /* Replace with your application code */
-    while (1) 
-    {	
+ 450:	8e e7       	ldi	r24, 0x7E	; 126
+ 452:	90 e0       	ldi	r25, 0x00	; 0
+ 454:	0e 94 16 03 	call	0x62c	; 0x62c <RTC_Set_Date>
+
+
+	/* Replace with your application code */
+	while (1)
+	{
 		RTC_Get_Time(&gettime);
- 3b8:	85 e6       	ldi	r24, 0x65	; 101
- 3ba:	90 e0       	ldi	r25, 0x00	; 0
- 3bc:	0e 94 01 02 	call	0x402	; 0x402 <RTC_Get_Time>
-		S7egment_Write(gettime.Hours ,GPIO_PIN_0);
- 3c0:	c5 e6       	ldi	r28, 0x65	; 101
- 3c2:	d0 e0       	ldi	r29, 0x00	; 0
- 3c4:	61 e0       	ldi	r22, 0x01	; 1
- 3c6:	8a 81       	ldd	r24, Y+2	; 0x02
- 3c8:	0e 94 7e 00 	call	0xfc	; 0xfc <S7egment_Write>
+ 458:	83 e8       	ldi	r24, 0x83	; 131
+ 45a:	90 e0       	ldi	r25, 0x00	; 0
+ 45c:	0e 94 57 02 	call	0x4ae	; 0x4ae <RTC_Get_Time>
+		
+		
+		S7egment_Write(gettime.Hours  , 0,&S7egHendler);
+ 460:	c3 e8       	ldi	r28, 0x83	; 131
+ 462:	d0 e0       	ldi	r29, 0x00	; 0
+ 464:	40 e6       	ldi	r20, 0x60	; 96
+ 466:	50 e0       	ldi	r21, 0x00	; 0
+ 468:	60 e0       	ldi	r22, 0x00	; 0
+ 46a:	8a 81       	ldd	r24, Y+2	; 0x02
+ 46c:	0e 94 91 00 	call	0x122	; 0x122 <S7egment_Write>
+		S7egment_Write(gettime.Minutes ,2,&S7egHendler);
+ 470:	40 e6       	ldi	r20, 0x60	; 96
+ 472:	50 e0       	ldi	r21, 0x00	; 0
+ 474:	62 e0       	ldi	r22, 0x02	; 2
+ 476:	89 81       	ldd	r24, Y+1	; 0x01
+ 478:	0e 94 91 00 	call	0x122	; 0x122 <S7egment_Write>
+		S7egment_Write(gettime.Seconds ,4,&S7egHendler);
+ 47c:	40 e6       	ldi	r20, 0x60	; 96
+ 47e:	50 e0       	ldi	r21, 0x00	; 0
+ 480:	64 e0       	ldi	r22, 0x04	; 4
+ 482:	88 81       	ld	r24, Y
+ 484:	0e 94 91 00 	call	0x122	; 0x122 <S7egment_Write>
+ 488:	e7 cf       	rjmp	.-50     	; 0x458 <main+0x1c>
 
-		S7egment_Write(gettime.Minutes ,GPIO_PIN_2);
- 3cc:	64 e0       	ldi	r22, 0x04	; 4
- 3ce:	89 81       	ldd	r24, Y+1	; 0x01
- 3d0:	0e 94 7e 00 	call	0xfc	; 0xfc <S7egment_Write>
-		S7egment_Write(gettime.Seconds ,GPIO_PIN_4);
- 3d4:	60 e1       	ldi	r22, 0x10	; 16
- 3d6:	88 81       	ld	r24, Y
- 3d8:	0e 94 7e 00 	call	0xfc	; 0xfc <S7egment_Write>
- 3dc:	ed cf       	rjmp	.-38     	; 0x3b8 <main+0x2a>
-
-000003de <DS1305_Init>:
+0000048a <DS1305_Init>:
 				Alarm->Hours =   TempAlarm.Hours;
 				
 			}
 			Alarm->Day   =TempAlarm.Day ;
 	
 }
- 3de:	8f e6       	ldi	r24, 0x6F	; 111
- 3e0:	90 e0       	ldi	r25, 0x00	; 0
- 3e2:	0e 94 19 01 	call	0x232	; 0x232 <I2C_INIT_FUN>
- 3e6:	08 95       	ret
+ 48a:	8d e8       	ldi	r24, 0x8D	; 141
+ 48c:	90 e0       	ldi	r25, 0x00	; 0
+ 48e:	0e 94 70 01 	call	0x2e0	; 0x2e0 <I2C_INIT_FUN>
+ 492:	08 95       	ret
 
-000003e8 <Convert_BCD_To_BIN>:
- 3e8:	38 2f       	mov	r19, r24
- 3ea:	3f 70       	andi	r19, 0x0F	; 15
- 3ec:	98 2f       	mov	r25, r24
- 3ee:	92 95       	swap	r25
- 3f0:	9f 70       	andi	r25, 0x0F	; 15
- 3f2:	99 0f       	add	r25, r25
- 3f4:	29 2f       	mov	r18, r25
- 3f6:	22 0f       	add	r18, r18
- 3f8:	22 0f       	add	r18, r18
- 3fa:	89 2f       	mov	r24, r25
- 3fc:	82 0f       	add	r24, r18
- 3fe:	83 0f       	add	r24, r19
- 400:	08 95       	ret
-
-00000402 <RTC_Get_Time>:
- 402:	ef 92       	push	r14
- 404:	ff 92       	push	r15
- 406:	0f 93       	push	r16
- 408:	1f 93       	push	r17
- 40a:	cf 93       	push	r28
- 40c:	df 93       	push	r29
- 40e:	00 d0       	rcall	.+0      	; 0x410 <RTC_Get_Time+0xe>
- 410:	00 d0       	rcall	.+0      	; 0x412 <RTC_Get_Time+0x10>
- 412:	1f 92       	push	r1
- 414:	cd b7       	in	r28, 0x3d	; 61
- 416:	de b7       	in	r29, 0x3e	; 62
- 418:	7c 01       	movw	r14, r24
- 41a:	03 e0       	ldi	r16, 0x03	; 3
- 41c:	9e 01       	movw	r18, r28
- 41e:	2f 5f       	subi	r18, 0xFF	; 255
- 420:	3f 4f       	sbci	r19, 0xFF	; 255
- 422:	40 e0       	ldi	r20, 0x00	; 0
- 424:	60 ed       	ldi	r22, 0xD0	; 208
- 426:	8f e6       	ldi	r24, 0x6F	; 111
- 428:	90 e0       	ldi	r25, 0x00	; 0
- 42a:	0e 94 88 01 	call	0x310	; 0x310 <HAL_I2C_Mem_Read>
- 42e:	8b 81       	ldd	r24, Y+3	; 0x03
- 430:	98 2f       	mov	r25, r24
- 432:	90 74       	andi	r25, 0x40	; 64
- 434:	86 fd       	sbrc	r24, 6
- 436:	05 c0       	rjmp	.+10     	; 0x442 <RTC_Get_Time+0x40>
- 438:	f7 01       	movw	r30, r14
- 43a:	82 81       	ldd	r24, Z+2	; 0x02
- 43c:	8f 77       	andi	r24, 0x7F	; 127
- 43e:	82 83       	std	Z+2, r24	; 0x02
- 440:	0b c0       	rjmp	.+22     	; 0x458 <RTC_Get_Time+0x56>
- 442:	91 11       	cpse	r25, r1
- 444:	04 c0       	rjmp	.+8      	; 0x44e <RTC_Get_Time+0x4c>
- 446:	91 e0       	ldi	r25, 0x01	; 1
- 448:	f7 01       	movw	r30, r14
- 44a:	94 83       	std	Z+4, r25	; 0x04
- 44c:	03 c0       	rjmp	.+6      	; 0x454 <RTC_Get_Time+0x52>
- 44e:	92 e0       	ldi	r25, 0x02	; 2
- 450:	f7 01       	movw	r30, r14
- 452:	94 83       	std	Z+4, r25	; 0x04
- 454:	8f 71       	andi	r24, 0x1F	; 31
- 456:	8b 83       	std	Y+3, r24	; 0x03
- 458:	8a 81       	ldd	r24, Y+2	; 0x02
- 45a:	08 2f       	mov	r16, r24
- 45c:	0f 77       	andi	r16, 0x7F	; 127
- 45e:	89 81       	ldd	r24, Y+1	; 0x01
- 460:	18 2f       	mov	r17, r24
- 462:	1f 77       	andi	r17, 0x7F	; 127
- 464:	f7 01       	movw	r30, r14
- 466:	83 81       	ldd	r24, Z+3	; 0x03
- 468:	82 30       	cpi	r24, 0x02	; 2
- 46a:	81 f4       	brne	.+32     	; 0x48c <RTC_Get_Time+0x8a>
- 46c:	8b 81       	ldd	r24, Y+3	; 0x03
- 46e:	0e 94 f4 01 	call	0x3e8	; 0x3e8 <Convert_BCD_To_BIN>
- 472:	f7 01       	movw	r30, r14
- 474:	82 83       	std	Z+2, r24	; 0x02
- 476:	80 2f       	mov	r24, r16
- 478:	0e 94 f4 01 	call	0x3e8	; 0x3e8 <Convert_BCD_To_BIN>
- 47c:	f7 01       	movw	r30, r14
- 47e:	81 83       	std	Z+1, r24	; 0x01
- 480:	81 2f       	mov	r24, r17
- 482:	0e 94 f4 01 	call	0x3e8	; 0x3e8 <Convert_BCD_To_BIN>
- 486:	f7 01       	movw	r30, r14
- 488:	80 83       	st	Z, r24
- 48a:	05 c0       	rjmp	.+10     	; 0x496 <RTC_Get_Time+0x94>
- 48c:	8b 81       	ldd	r24, Y+3	; 0x03
- 48e:	f7 01       	movw	r30, r14
- 490:	82 83       	std	Z+2, r24	; 0x02
- 492:	01 83       	std	Z+1, r16	; 0x01
- 494:	10 83       	st	Z, r17
- 496:	0f 90       	pop	r0
- 498:	0f 90       	pop	r0
- 49a:	0f 90       	pop	r0
- 49c:	0f 90       	pop	r0
- 49e:	0f 90       	pop	r0
- 4a0:	df 91       	pop	r29
- 4a2:	cf 91       	pop	r28
- 4a4:	1f 91       	pop	r17
- 4a6:	0f 91       	pop	r16
- 4a8:	ff 90       	pop	r15
- 4aa:	ef 90       	pop	r14
+00000494 <Convert_BCD_To_BIN>:
+ 494:	38 2f       	mov	r19, r24
+ 496:	3f 70       	andi	r19, 0x0F	; 15
+ 498:	98 2f       	mov	r25, r24
+ 49a:	92 95       	swap	r25
+ 49c:	9f 70       	andi	r25, 0x0F	; 15
+ 49e:	99 0f       	add	r25, r25
+ 4a0:	29 2f       	mov	r18, r25
+ 4a2:	22 0f       	add	r18, r18
+ 4a4:	22 0f       	add	r18, r18
+ 4a6:	89 2f       	mov	r24, r25
+ 4a8:	82 0f       	add	r24, r18
+ 4aa:	83 0f       	add	r24, r19
  4ac:	08 95       	ret
 
-000004ae <Convert_BIN_To_BCD>:
+000004ae <RTC_Get_Time>:
+ 4ae:	ef 92       	push	r14
+ 4b0:	ff 92       	push	r15
+ 4b2:	0f 93       	push	r16
+ 4b4:	1f 93       	push	r17
+ 4b6:	cf 93       	push	r28
+ 4b8:	df 93       	push	r29
+ 4ba:	00 d0       	rcall	.+0      	; 0x4bc <RTC_Get_Time+0xe>
+ 4bc:	00 d0       	rcall	.+0      	; 0x4be <RTC_Get_Time+0x10>
+ 4be:	1f 92       	push	r1
+ 4c0:	cd b7       	in	r28, 0x3d	; 61
+ 4c2:	de b7       	in	r29, 0x3e	; 62
+ 4c4:	7c 01       	movw	r14, r24
+ 4c6:	03 e0       	ldi	r16, 0x03	; 3
+ 4c8:	9e 01       	movw	r18, r28
+ 4ca:	2f 5f       	subi	r18, 0xFF	; 255
+ 4cc:	3f 4f       	sbci	r19, 0xFF	; 255
+ 4ce:	40 e0       	ldi	r20, 0x00	; 0
+ 4d0:	60 ed       	ldi	r22, 0xD0	; 208
+ 4d2:	8d e8       	ldi	r24, 0x8D	; 141
+ 4d4:	90 e0       	ldi	r25, 0x00	; 0
+ 4d6:	0e 94 df 01 	call	0x3be	; 0x3be <HAL_I2C_Mem_Read>
+ 4da:	8b 81       	ldd	r24, Y+3	; 0x03
+ 4dc:	98 2f       	mov	r25, r24
+ 4de:	90 74       	andi	r25, 0x40	; 64
+ 4e0:	86 fd       	sbrc	r24, 6
+ 4e2:	05 c0       	rjmp	.+10     	; 0x4ee <RTC_Get_Time+0x40>
+ 4e4:	f7 01       	movw	r30, r14
+ 4e6:	82 81       	ldd	r24, Z+2	; 0x02
+ 4e8:	8f 77       	andi	r24, 0x7F	; 127
+ 4ea:	82 83       	std	Z+2, r24	; 0x02
+ 4ec:	0b c0       	rjmp	.+22     	; 0x504 <RTC_Get_Time+0x56>
+ 4ee:	91 11       	cpse	r25, r1
+ 4f0:	04 c0       	rjmp	.+8      	; 0x4fa <RTC_Get_Time+0x4c>
+ 4f2:	91 e0       	ldi	r25, 0x01	; 1
+ 4f4:	f7 01       	movw	r30, r14
+ 4f6:	94 83       	std	Z+4, r25	; 0x04
+ 4f8:	03 c0       	rjmp	.+6      	; 0x500 <RTC_Get_Time+0x52>
+ 4fa:	92 e0       	ldi	r25, 0x02	; 2
+ 4fc:	f7 01       	movw	r30, r14
+ 4fe:	94 83       	std	Z+4, r25	; 0x04
+ 500:	8f 71       	andi	r24, 0x1F	; 31
+ 502:	8b 83       	std	Y+3, r24	; 0x03
+ 504:	8a 81       	ldd	r24, Y+2	; 0x02
+ 506:	08 2f       	mov	r16, r24
+ 508:	0f 77       	andi	r16, 0x7F	; 127
+ 50a:	89 81       	ldd	r24, Y+1	; 0x01
+ 50c:	18 2f       	mov	r17, r24
+ 50e:	1f 77       	andi	r17, 0x7F	; 127
+ 510:	f7 01       	movw	r30, r14
+ 512:	83 81       	ldd	r24, Z+3	; 0x03
+ 514:	82 30       	cpi	r24, 0x02	; 2
+ 516:	81 f4       	brne	.+32     	; 0x538 <RTC_Get_Time+0x8a>
+ 518:	8b 81       	ldd	r24, Y+3	; 0x03
+ 51a:	0e 94 4a 02 	call	0x494	; 0x494 <Convert_BCD_To_BIN>
+ 51e:	f7 01       	movw	r30, r14
+ 520:	82 83       	std	Z+2, r24	; 0x02
+ 522:	80 2f       	mov	r24, r16
+ 524:	0e 94 4a 02 	call	0x494	; 0x494 <Convert_BCD_To_BIN>
+ 528:	f7 01       	movw	r30, r14
+ 52a:	81 83       	std	Z+1, r24	; 0x01
+ 52c:	81 2f       	mov	r24, r17
+ 52e:	0e 94 4a 02 	call	0x494	; 0x494 <Convert_BCD_To_BIN>
+ 532:	f7 01       	movw	r30, r14
+ 534:	80 83       	st	Z, r24
+ 536:	05 c0       	rjmp	.+10     	; 0x542 <RTC_Get_Time+0x94>
+ 538:	8b 81       	ldd	r24, Y+3	; 0x03
+ 53a:	f7 01       	movw	r30, r14
+ 53c:	82 83       	std	Z+2, r24	; 0x02
+ 53e:	01 83       	std	Z+1, r16	; 0x01
+ 540:	10 83       	st	Z, r17
+ 542:	0f 90       	pop	r0
+ 544:	0f 90       	pop	r0
+ 546:	0f 90       	pop	r0
+ 548:	0f 90       	pop	r0
+ 54a:	0f 90       	pop	r0
+ 54c:	df 91       	pop	r29
+ 54e:	cf 91       	pop	r28
+ 550:	1f 91       	pop	r17
+ 552:	0f 91       	pop	r16
+ 554:	ff 90       	pop	r15
+ 556:	ef 90       	pop	r14
+ 558:	08 95       	ret
+
+0000055a <Convert_BIN_To_BCD>:
 {
 	
 	uint8_t BCD_Low =0;
 	
 	
 	if(BIN_Num > 99u) // check if the wrong data send from the Application
- 4ae:	84 36       	cpi	r24, 0x64	; 100
- 4b0:	d8 f4       	brcc	.+54     	; 0x4e8 <Convert_BIN_To_BCD+0x3a>
+ 55a:	84 36       	cpi	r24, 0x64	; 100
+ 55c:	d8 f4       	brcc	.+54     	; 0x594 <Convert_BIN_To_BCD+0x3a>
 	return 0x99u;
 	if(BIN_Num == 0)
- 4b2:	88 23       	and	r24, r24
- 4b4:	d9 f0       	breq	.+54     	; 0x4ec <Convert_BIN_To_BCD+0x3e>
+ 55e:	88 23       	and	r24, r24
+ 560:	d9 f0       	breq	.+54     	; 0x598 <Convert_BIN_To_BCD+0x3e>
 	return 0;
 	
 	BCD_Low = BIN_Num % 10u ;
- 4b6:	9d ec       	ldi	r25, 0xCD	; 205
- 4b8:	89 9f       	mul	r24, r25
- 4ba:	91 2d       	mov	r25, r1
- 4bc:	11 24       	eor	r1, r1
- 4be:	49 2f       	mov	r20, r25
- 4c0:	46 95       	lsr	r20
- 4c2:	46 95       	lsr	r20
- 4c4:	46 95       	lsr	r20
- 4c6:	44 0f       	add	r20, r20
- 4c8:	24 2f       	mov	r18, r20
- 4ca:	22 0f       	add	r18, r18
- 4cc:	22 0f       	add	r18, r18
- 4ce:	42 0f       	add	r20, r18
- 4d0:	84 1b       	sub	r24, r20
- 4d2:	48 2f       	mov	r20, r24
+ 562:	9d ec       	ldi	r25, 0xCD	; 205
+ 564:	89 9f       	mul	r24, r25
+ 566:	91 2d       	mov	r25, r1
+ 568:	11 24       	eor	r1, r1
+ 56a:	49 2f       	mov	r20, r25
+ 56c:	46 95       	lsr	r20
+ 56e:	46 95       	lsr	r20
+ 570:	46 95       	lsr	r20
+ 572:	44 0f       	add	r20, r20
+ 574:	24 2f       	mov	r18, r20
+ 576:	22 0f       	add	r18, r18
+ 578:	22 0f       	add	r18, r18
+ 57a:	42 0f       	add	r20, r18
+ 57c:	84 1b       	sub	r24, r20
+ 57e:	48 2f       	mov	r20, r24
 	BIN_Num /= 10u ;
- 4d4:	96 95       	lsr	r25
- 4d6:	96 95       	lsr	r25
- 4d8:	96 95       	lsr	r25
+ 580:	96 95       	lsr	r25
+ 582:	96 95       	lsr	r25
+ 584:	96 95       	lsr	r25
 	return (BIN_Num <<4u | BCD_Low );
- 4da:	80 e1       	ldi	r24, 0x10	; 16
- 4dc:	98 9f       	mul	r25, r24
- 4de:	90 01       	movw	r18, r0
- 4e0:	11 24       	eor	r1, r1
- 4e2:	84 2f       	mov	r24, r20
- 4e4:	82 2b       	or	r24, r18
- 4e6:	08 95       	ret
+ 586:	80 e1       	ldi	r24, 0x10	; 16
+ 588:	98 9f       	mul	r25, r24
+ 58a:	90 01       	movw	r18, r0
+ 58c:	11 24       	eor	r1, r1
+ 58e:	84 2f       	mov	r24, r20
+ 590:	82 2b       	or	r24, r18
+ 592:	08 95       	ret
 	
 	uint8_t BCD_Low =0;
 	
 	
 	if(BIN_Num > 99u) // check if the wrong data send from the Application
 	return 0x99u;
- 4e8:	89 e9       	ldi	r24, 0x99	; 153
- 4ea:	08 95       	ret
+ 594:	89 e9       	ldi	r24, 0x99	; 153
+ 596:	08 95       	ret
 	if(BIN_Num == 0)
 	return 0;
- 4ec:	80 e0       	ldi	r24, 0x00	; 0
+ 598:	80 e0       	ldi	r24, 0x00	; 0
 	BIN_Num /= 10u ;
 	return (BIN_Num <<4u | BCD_Low );
 	
 	
 	
 }
- 4ee:	08 95       	ret
+ 59a:	08 95       	ret
 
-000004f0 <RTC_Set_Time>:
+0000059c <RTC_Set_Time>:
 /* brief : this function used to set DS1305 Time 
  * param : Time_Typedef handler struct pointer hold all Time informations 
  * return : void 
  */
 void RTC_Set_Time(Time_Typedef * Time)
 {
- 4f0:	0f 93       	push	r16
- 4f2:	1f 93       	push	r17
- 4f4:	cf 93       	push	r28
- 4f6:	df 93       	push	r29
- 4f8:	00 d0       	rcall	.+0      	; 0x4fa <RTC_Set_Time+0xa>
- 4fa:	00 d0       	rcall	.+0      	; 0x4fc <RTC_Set_Time+0xc>
- 4fc:	1f 92       	push	r1
- 4fe:	cd b7       	in	r28, 0x3d	; 61
- 500:	de b7       	in	r29, 0x3e	; 62
- 502:	8c 01       	movw	r16, r24
+ 59c:	0f 93       	push	r16
+ 59e:	1f 93       	push	r17
+ 5a0:	cf 93       	push	r28
+ 5a2:	df 93       	push	r29
+ 5a4:	00 d0       	rcall	.+0      	; 0x5a6 <RTC_Set_Time+0xa>
+ 5a6:	00 d0       	rcall	.+0      	; 0x5a8 <RTC_Set_Time+0xc>
+ 5a8:	1f 92       	push	r1
+ 5aa:	cd b7       	in	r28, 0x3d	; 61
+ 5ac:	de b7       	in	r29, 0x3e	; 62
+ 5ae:	8c 01       	movw	r16, r24
 	/* temp handler to hold all actual timing info that will send to DS1305 */
 	Time_Typedef TempTime ;
 	
 	/* check if any need to convert to BCD formate */
 	if(Time->RTC_Time_Format == RTC_Format_BIN)
- 504:	fc 01       	movw	r30, r24
- 506:	83 81       	ldd	r24, Z+3	; 0x03
- 508:	82 30       	cpi	r24, 0x02	; 2
- 50a:	79 f4       	brne	.+30     	; 0x52a <RTC_Set_Time+0x3a>
+ 5b0:	fc 01       	movw	r30, r24
+ 5b2:	83 81       	ldd	r24, Z+3	; 0x03
+ 5b4:	82 30       	cpi	r24, 0x02	; 2
+ 5b6:	79 f4       	brne	.+30     	; 0x5d6 <RTC_Set_Time+0x3a>
 	{
 		TempTime.Hours   = Convert_BIN_To_BCD(Time->Hours);
- 50c:	82 81       	ldd	r24, Z+2	; 0x02
- 50e:	0e 94 57 02 	call	0x4ae	; 0x4ae <Convert_BIN_To_BCD>
- 512:	8b 83       	std	Y+3, r24	; 0x03
+ 5b8:	82 81       	ldd	r24, Z+2	; 0x02
+ 5ba:	0e 94 ad 02 	call	0x55a	; 0x55a <Convert_BIN_To_BCD>
+ 5be:	8b 83       	std	Y+3, r24	; 0x03
 		TempTime.Minutes = Convert_BIN_To_BCD(Time->Minutes);
- 514:	f8 01       	movw	r30, r16
- 516:	81 81       	ldd	r24, Z+1	; 0x01
- 518:	0e 94 57 02 	call	0x4ae	; 0x4ae <Convert_BIN_To_BCD>
- 51c:	8a 83       	std	Y+2, r24	; 0x02
+ 5c0:	f8 01       	movw	r30, r16
+ 5c2:	81 81       	ldd	r24, Z+1	; 0x01
+ 5c4:	0e 94 ad 02 	call	0x55a	; 0x55a <Convert_BIN_To_BCD>
+ 5c8:	8a 83       	std	Y+2, r24	; 0x02
 		TempTime.Seconds = Convert_BIN_To_BCD(Time->Seconds);							
- 51e:	f8 01       	movw	r30, r16
- 520:	80 81       	ld	r24, Z
- 522:	0e 94 57 02 	call	0x4ae	; 0x4ae <Convert_BIN_To_BCD>
- 526:	89 83       	std	Y+1, r24	; 0x01
- 528:	0a c0       	rjmp	.+20     	; 0x53e <RTC_Set_Time+0x4e>
+ 5ca:	f8 01       	movw	r30, r16
+ 5cc:	80 81       	ld	r24, Z
+ 5ce:	0e 94 ad 02 	call	0x55a	; 0x55a <Convert_BIN_To_BCD>
+ 5d2:	89 83       	std	Y+1, r24	; 0x01
+ 5d4:	0a c0       	rjmp	.+20     	; 0x5ea <RTC_Set_Time+0x4e>
 	}else{
 		TempTime.Hours   = Time->Hours	  & 0x7f ;
- 52a:	f8 01       	movw	r30, r16
- 52c:	82 81       	ldd	r24, Z+2	; 0x02
- 52e:	8f 77       	andi	r24, 0x7F	; 127
- 530:	8b 83       	std	Y+3, r24	; 0x03
+ 5d6:	f8 01       	movw	r30, r16
+ 5d8:	82 81       	ldd	r24, Z+2	; 0x02
+ 5da:	8f 77       	andi	r24, 0x7F	; 127
+ 5dc:	8b 83       	std	Y+3, r24	; 0x03
 		TempTime.Minutes = Time->Minutes & 0x7f ;
- 532:	81 81       	ldd	r24, Z+1	; 0x01
- 534:	8f 77       	andi	r24, 0x7F	; 127
- 536:	8a 83       	std	Y+2, r24	; 0x02
+ 5de:	81 81       	ldd	r24, Z+1	; 0x01
+ 5e0:	8f 77       	andi	r24, 0x7F	; 127
+ 5e2:	8a 83       	std	Y+2, r24	; 0x02
 		TempTime.Seconds = Time->Seconds & 0x7f ;
- 538:	80 81       	ld	r24, Z
- 53a:	8f 77       	andi	r24, 0x7F	; 127
- 53c:	89 83       	std	Y+1, r24	; 0x01
+ 5e4:	80 81       	ld	r24, Z
+ 5e6:	8f 77       	andi	r24, 0x7F	; 127
+ 5e8:	89 83       	std	Y+1, r24	; 0x01
 	}
 
 if(Time->RTC_AM_PM != 0u)
- 53e:	f8 01       	movw	r30, r16
- 540:	84 81       	ldd	r24, Z+4	; 0x04
- 542:	88 23       	and	r24, r24
- 544:	49 f0       	breq	.+18     	; 0x558 <RTC_Set_Time+0x68>
+ 5ea:	f8 01       	movw	r30, r16
+ 5ec:	84 81       	ldd	r24, Z+4	; 0x04
+ 5ee:	88 23       	and	r24, r24
+ 5f0:	49 f0       	breq	.+18     	; 0x604 <RTC_Set_Time+0x68>
 {
 	
 	if(Time->RTC_AM_PM == RTC_Time_PM )	// PM logic high & AM logic low
- 546:	82 30       	cpi	r24, 0x02	; 2
- 548:	21 f4       	brne	.+8      	; 0x552 <RTC_Set_Time+0x62>
+ 5f2:	82 30       	cpi	r24, 0x02	; 2
+ 5f4:	21 f4       	brne	.+8      	; 0x5fe <RTC_Set_Time+0x62>
 	TempTime.Hours |= 0x40u ;
- 54a:	8b 81       	ldd	r24, Y+3	; 0x03
- 54c:	80 64       	ori	r24, 0x40	; 64
- 54e:	8b 83       	std	Y+3, r24	; 0x03
- 550:	03 c0       	rjmp	.+6      	; 0x558 <RTC_Set_Time+0x68>
+ 5f6:	8b 81       	ldd	r24, Y+3	; 0x03
+ 5f8:	80 64       	ori	r24, 0x40	; 64
+ 5fa:	8b 83       	std	Y+3, r24	; 0x03
+ 5fc:	03 c0       	rjmp	.+6      	; 0x604 <RTC_Set_Time+0x68>
 	else
 	TempTime.Hours |= 0x60u ;
- 552:	8b 81       	ldd	r24, Y+3	; 0x03
- 554:	80 66       	ori	r24, 0x60	; 96
- 556:	8b 83       	std	Y+3, r24	; 0x03
+ 5fe:	8b 81       	ldd	r24, Y+3	; 0x03
+ 600:	80 66       	ori	r24, 0x60	; 96
+ 602:	8b 83       	std	Y+3, r24	; 0x03
 }
 
 
 /*here we'll send all Time information to DS1305 Module */
 HAL_I2C_Mem_Write(&I2cHandler,0xd0,0x00,&TempTime.Seconds,3);
- 558:	03 e0       	ldi	r16, 0x03	; 3
- 55a:	9e 01       	movw	r18, r28
- 55c:	2f 5f       	subi	r18, 0xFF	; 255
- 55e:	3f 4f       	sbci	r19, 0xFF	; 255
- 560:	40 e0       	ldi	r20, 0x00	; 0
- 562:	60 ed       	ldi	r22, 0xD0	; 208
- 564:	8f e6       	ldi	r24, 0x6F	; 111
- 566:	90 e0       	ldi	r25, 0x00	; 0
- 568:	0e 94 5a 01 	call	0x2b4	; 0x2b4 <HAL_I2C_Mem_Write>
+ 604:	03 e0       	ldi	r16, 0x03	; 3
+ 606:	9e 01       	movw	r18, r28
+ 608:	2f 5f       	subi	r18, 0xFF	; 255
+ 60a:	3f 4f       	sbci	r19, 0xFF	; 255
+ 60c:	40 e0       	ldi	r20, 0x00	; 0
+ 60e:	60 ed       	ldi	r22, 0xD0	; 208
+ 610:	8d e8       	ldi	r24, 0x8D	; 141
+ 612:	90 e0       	ldi	r25, 0x00	; 0
+ 614:	0e 94 b1 01 	call	0x362	; 0x362 <HAL_I2C_Mem_Write>
 	
 	
 	
 }/* End_Of RTC_Set_Time() */
- 56c:	0f 90       	pop	r0
- 56e:	0f 90       	pop	r0
- 570:	0f 90       	pop	r0
- 572:	0f 90       	pop	r0
- 574:	0f 90       	pop	r0
- 576:	df 91       	pop	r29
- 578:	cf 91       	pop	r28
- 57a:	1f 91       	pop	r17
- 57c:	0f 91       	pop	r16
- 57e:	08 95       	ret
+ 618:	0f 90       	pop	r0
+ 61a:	0f 90       	pop	r0
+ 61c:	0f 90       	pop	r0
+ 61e:	0f 90       	pop	r0
+ 620:	0f 90       	pop	r0
+ 622:	df 91       	pop	r29
+ 624:	cf 91       	pop	r28
+ 626:	1f 91       	pop	r17
+ 628:	0f 91       	pop	r16
+ 62a:	08 95       	ret
 
-00000580 <RTC_Set_Date>:
+0000062c <RTC_Set_Date>:
 /* brief : this function used to Set DS1305 Current Date 
  * param : Date_Typedef handler struct pointer hold all Date informations that will send from DS1305 
  * return : void 
  */
 void RTC_Set_Date(Date_Typedef * Date)
 {
- 580:	0f 93       	push	r16
- 582:	1f 93       	push	r17
- 584:	cf 93       	push	r28
- 586:	df 93       	push	r29
- 588:	00 d0       	rcall	.+0      	; 0x58a <RTC_Set_Date+0xa>
- 58a:	00 d0       	rcall	.+0      	; 0x58c <RTC_Set_Date+0xc>
- 58c:	1f 92       	push	r1
- 58e:	cd b7       	in	r28, 0x3d	; 61
- 590:	de b7       	in	r29, 0x3e	; 62
- 592:	8c 01       	movw	r16, r24
+ 62c:	0f 93       	push	r16
+ 62e:	1f 93       	push	r17
+ 630:	cf 93       	push	r28
+ 632:	df 93       	push	r29
+ 634:	00 d0       	rcall	.+0      	; 0x636 <RTC_Set_Date+0xa>
+ 636:	00 d0       	rcall	.+0      	; 0x638 <RTC_Set_Date+0xc>
+ 638:	1f 92       	push	r1
+ 63a:	cd b7       	in	r28, 0x3d	; 61
+ 63c:	de b7       	in	r29, 0x3e	; 62
+ 63e:	8c 01       	movw	r16, r24
 	Date_Typedef TempDate ;
 	
 	/* check the format of the data that send by the user in Date_Typedef Var */
 	if(Date->RTC_Time_Format == RTC_Format_BIN)
- 594:	fc 01       	movw	r30, r24
- 596:	84 81       	ldd	r24, Z+4	; 0x04
- 598:	82 30       	cpi	r24, 0x02	; 2
- 59a:	79 f4       	brne	.+30     	; 0x5ba <RTC_Set_Date+0x3a>
+ 640:	fc 01       	movw	r30, r24
+ 642:	84 81       	ldd	r24, Z+4	; 0x04
+ 644:	82 30       	cpi	r24, 0x02	; 2
+ 646:	79 f4       	brne	.+30     	; 0x666 <RTC_Set_Date+0x3a>
 	{
 		
 		TempDate.DayDate   = Convert_BIN_To_BCD(Date->DayDate);
- 59c:	81 81       	ldd	r24, Z+1	; 0x01
- 59e:	0e 94 57 02 	call	0x4ae	; 0x4ae <Convert_BIN_To_BCD>
- 5a2:	8a 83       	std	Y+2, r24	; 0x02
+ 648:	81 81       	ldd	r24, Z+1	; 0x01
+ 64a:	0e 94 ad 02 	call	0x55a	; 0x55a <Convert_BIN_To_BCD>
+ 64e:	8a 83       	std	Y+2, r24	; 0x02
 		TempDate.Year = Convert_BIN_To_BCD(Date->Year);
- 5a4:	f8 01       	movw	r30, r16
- 5a6:	83 81       	ldd	r24, Z+3	; 0x03
- 5a8:	0e 94 57 02 	call	0x4ae	; 0x4ae <Convert_BIN_To_BCD>
- 5ac:	8c 83       	std	Y+4, r24	; 0x04
+ 650:	f8 01       	movw	r30, r16
+ 652:	83 81       	ldd	r24, Z+3	; 0x03
+ 654:	0e 94 ad 02 	call	0x55a	; 0x55a <Convert_BIN_To_BCD>
+ 658:	8c 83       	std	Y+4, r24	; 0x04
 		TempDate.month = Convert_BIN_To_BCD(Date->month);
- 5ae:	f8 01       	movw	r30, r16
- 5b0:	82 81       	ldd	r24, Z+2	; 0x02
- 5b2:	0e 94 57 02 	call	0x4ae	; 0x4ae <Convert_BIN_To_BCD>
- 5b6:	8b 83       	std	Y+3, r24	; 0x03
- 5b8:	09 c0       	rjmp	.+18     	; 0x5cc <RTC_Set_Date+0x4c>
+ 65a:	f8 01       	movw	r30, r16
+ 65c:	82 81       	ldd	r24, Z+2	; 0x02
+ 65e:	0e 94 ad 02 	call	0x55a	; 0x55a <Convert_BIN_To_BCD>
+ 662:	8b 83       	std	Y+3, r24	; 0x03
+ 664:	09 c0       	rjmp	.+18     	; 0x678 <RTC_Set_Date+0x4c>
 		
 		}else{
 		TempDate.DayDate   = Date->DayDate   & 0x3f ;
- 5ba:	f8 01       	movw	r30, r16
- 5bc:	81 81       	ldd	r24, Z+1	; 0x01
- 5be:	8f 73       	andi	r24, 0x3F	; 63
- 5c0:	8a 83       	std	Y+2, r24	; 0x02
+ 666:	f8 01       	movw	r30, r16
+ 668:	81 81       	ldd	r24, Z+1	; 0x01
+ 66a:	8f 73       	andi	r24, 0x3F	; 63
+ 66c:	8a 83       	std	Y+2, r24	; 0x02
 		TempDate.Year  = Date->Year  ;
- 5c2:	83 81       	ldd	r24, Z+3	; 0x03
- 5c4:	8c 83       	std	Y+4, r24	; 0x04
+ 66e:	83 81       	ldd	r24, Z+3	; 0x03
+ 670:	8c 83       	std	Y+4, r24	; 0x04
 		TempDate.month = Date->month & 0x3f ;
- 5c6:	82 81       	ldd	r24, Z+2	; 0x02
- 5c8:	8f 73       	andi	r24, 0x3F	; 63
- 5ca:	8b 83       	std	Y+3, r24	; 0x03
+ 672:	82 81       	ldd	r24, Z+2	; 0x02
+ 674:	8f 73       	andi	r24, 0x3F	; 63
+ 676:	8b 83       	std	Y+3, r24	; 0x03
 		}
 	TempDate.Day = Date->Day;
- 5cc:	f8 01       	movw	r30, r16
- 5ce:	80 81       	ld	r24, Z
- 5d0:	89 83       	std	Y+1, r24	; 0x01
+ 678:	f8 01       	movw	r30, r16
+ 67a:	80 81       	ld	r24, Z
+ 67c:	89 83       	std	Y+1, r24	; 0x01
 	
 	/* here we'll set up the data For Ds1305 Module */
 	HAL_I2C_Mem_Write(&I2cHandler,0xd0,0x03,&TempDate.Day,4);
- 5d2:	04 e0       	ldi	r16, 0x04	; 4
- 5d4:	9e 01       	movw	r18, r28
- 5d6:	2f 5f       	subi	r18, 0xFF	; 255
- 5d8:	3f 4f       	sbci	r19, 0xFF	; 255
- 5da:	43 e0       	ldi	r20, 0x03	; 3
- 5dc:	60 ed       	ldi	r22, 0xD0	; 208
- 5de:	8f e6       	ldi	r24, 0x6F	; 111
- 5e0:	90 e0       	ldi	r25, 0x00	; 0
- 5e2:	0e 94 5a 01 	call	0x2b4	; 0x2b4 <HAL_I2C_Mem_Write>
+ 67e:	04 e0       	ldi	r16, 0x04	; 4
+ 680:	9e 01       	movw	r18, r28
+ 682:	2f 5f       	subi	r18, 0xFF	; 255
+ 684:	3f 4f       	sbci	r19, 0xFF	; 255
+ 686:	43 e0       	ldi	r20, 0x03	; 3
+ 688:	60 ed       	ldi	r22, 0xD0	; 208
+ 68a:	8d e8       	ldi	r24, 0x8D	; 141
+ 68c:	90 e0       	ldi	r25, 0x00	; 0
+ 68e:	0e 94 b1 01 	call	0x362	; 0x362 <HAL_I2C_Mem_Write>
 
 	
 }/* End_Of RTC_Set_Time() */
- 5e6:	0f 90       	pop	r0
- 5e8:	0f 90       	pop	r0
- 5ea:	0f 90       	pop	r0
- 5ec:	0f 90       	pop	r0
- 5ee:	0f 90       	pop	r0
- 5f0:	df 91       	pop	r29
- 5f2:	cf 91       	pop	r28
- 5f4:	1f 91       	pop	r17
- 5f6:	0f 91       	pop	r16
- 5f8:	08 95       	ret
+ 692:	0f 90       	pop	r0
+ 694:	0f 90       	pop	r0
+ 696:	0f 90       	pop	r0
+ 698:	0f 90       	pop	r0
+ 69a:	0f 90       	pop	r0
+ 69c:	df 91       	pop	r29
+ 69e:	cf 91       	pop	r28
+ 6a0:	1f 91       	pop	r17
+ 6a2:	0f 91       	pop	r16
+ 6a4:	08 95       	ret
 
-000005fa <__udivmodsi4>:
- 5fa:	a1 e2       	ldi	r26, 0x21	; 33
- 5fc:	1a 2e       	mov	r1, r26
- 5fe:	aa 1b       	sub	r26, r26
- 600:	bb 1b       	sub	r27, r27
- 602:	fd 01       	movw	r30, r26
- 604:	0d c0       	rjmp	.+26     	; 0x620 <__udivmodsi4_ep>
+000006a6 <__udivmodsi4>:
+ 6a6:	a1 e2       	ldi	r26, 0x21	; 33
+ 6a8:	1a 2e       	mov	r1, r26
+ 6aa:	aa 1b       	sub	r26, r26
+ 6ac:	bb 1b       	sub	r27, r27
+ 6ae:	fd 01       	movw	r30, r26
+ 6b0:	0d c0       	rjmp	.+26     	; 0x6cc <__udivmodsi4_ep>
 
-00000606 <__udivmodsi4_loop>:
- 606:	aa 1f       	adc	r26, r26
- 608:	bb 1f       	adc	r27, r27
- 60a:	ee 1f       	adc	r30, r30
- 60c:	ff 1f       	adc	r31, r31
- 60e:	a2 17       	cp	r26, r18
- 610:	b3 07       	cpc	r27, r19
- 612:	e4 07       	cpc	r30, r20
- 614:	f5 07       	cpc	r31, r21
- 616:	20 f0       	brcs	.+8      	; 0x620 <__udivmodsi4_ep>
- 618:	a2 1b       	sub	r26, r18
- 61a:	b3 0b       	sbc	r27, r19
- 61c:	e4 0b       	sbc	r30, r20
- 61e:	f5 0b       	sbc	r31, r21
+000006b2 <__udivmodsi4_loop>:
+ 6b2:	aa 1f       	adc	r26, r26
+ 6b4:	bb 1f       	adc	r27, r27
+ 6b6:	ee 1f       	adc	r30, r30
+ 6b8:	ff 1f       	adc	r31, r31
+ 6ba:	a2 17       	cp	r26, r18
+ 6bc:	b3 07       	cpc	r27, r19
+ 6be:	e4 07       	cpc	r30, r20
+ 6c0:	f5 07       	cpc	r31, r21
+ 6c2:	20 f0       	brcs	.+8      	; 0x6cc <__udivmodsi4_ep>
+ 6c4:	a2 1b       	sub	r26, r18
+ 6c6:	b3 0b       	sbc	r27, r19
+ 6c8:	e4 0b       	sbc	r30, r20
+ 6ca:	f5 0b       	sbc	r31, r21
 
-00000620 <__udivmodsi4_ep>:
- 620:	66 1f       	adc	r22, r22
- 622:	77 1f       	adc	r23, r23
- 624:	88 1f       	adc	r24, r24
- 626:	99 1f       	adc	r25, r25
- 628:	1a 94       	dec	r1
- 62a:	69 f7       	brne	.-38     	; 0x606 <__udivmodsi4_loop>
- 62c:	60 95       	com	r22
- 62e:	70 95       	com	r23
- 630:	80 95       	com	r24
- 632:	90 95       	com	r25
- 634:	9b 01       	movw	r18, r22
- 636:	ac 01       	movw	r20, r24
- 638:	bd 01       	movw	r22, r26
- 63a:	cf 01       	movw	r24, r30
- 63c:	08 95       	ret
+000006cc <__udivmodsi4_ep>:
+ 6cc:	66 1f       	adc	r22, r22
+ 6ce:	77 1f       	adc	r23, r23
+ 6d0:	88 1f       	adc	r24, r24
+ 6d2:	99 1f       	adc	r25, r25
+ 6d4:	1a 94       	dec	r1
+ 6d6:	69 f7       	brne	.-38     	; 0x6b2 <__udivmodsi4_loop>
+ 6d8:	60 95       	com	r22
+ 6da:	70 95       	com	r23
+ 6dc:	80 95       	com	r24
+ 6de:	90 95       	com	r25
+ 6e0:	9b 01       	movw	r18, r22
+ 6e2:	ac 01       	movw	r20, r24
+ 6e4:	bd 01       	movw	r22, r26
+ 6e6:	cf 01       	movw	r24, r30
+ 6e8:	08 95       	ret
 
-0000063e <__ashrdi3>:
- 63e:	97 fb       	bst	r25, 7
- 640:	10 f8       	bld	r1, 0
+000006ea <__ashrdi3>:
+ 6ea:	97 fb       	bst	r25, 7
+ 6ec:	10 f8       	bld	r1, 0
 
-00000642 <__lshrdi3>:
- 642:	16 94       	lsr	r1
- 644:	00 08       	sbc	r0, r0
- 646:	0f 93       	push	r16
- 648:	08 30       	cpi	r16, 0x08	; 8
- 64a:	98 f0       	brcs	.+38     	; 0x672 <__lshrdi3+0x30>
- 64c:	08 50       	subi	r16, 0x08	; 8
- 64e:	23 2f       	mov	r18, r19
- 650:	34 2f       	mov	r19, r20
- 652:	45 2f       	mov	r20, r21
- 654:	56 2f       	mov	r21, r22
- 656:	67 2f       	mov	r22, r23
- 658:	78 2f       	mov	r23, r24
- 65a:	89 2f       	mov	r24, r25
- 65c:	90 2d       	mov	r25, r0
- 65e:	f4 cf       	rjmp	.-24     	; 0x648 <__lshrdi3+0x6>
- 660:	05 94       	asr	r0
- 662:	97 95       	ror	r25
- 664:	87 95       	ror	r24
- 666:	77 95       	ror	r23
- 668:	67 95       	ror	r22
- 66a:	57 95       	ror	r21
- 66c:	47 95       	ror	r20
- 66e:	37 95       	ror	r19
- 670:	27 95       	ror	r18
- 672:	0a 95       	dec	r16
- 674:	aa f7       	brpl	.-22     	; 0x660 <__lshrdi3+0x1e>
- 676:	0f 91       	pop	r16
- 678:	08 95       	ret
+000006ee <__lshrdi3>:
+ 6ee:	16 94       	lsr	r1
+ 6f0:	00 08       	sbc	r0, r0
+ 6f2:	0f 93       	push	r16
+ 6f4:	08 30       	cpi	r16, 0x08	; 8
+ 6f6:	98 f0       	brcs	.+38     	; 0x71e <__lshrdi3+0x30>
+ 6f8:	08 50       	subi	r16, 0x08	; 8
+ 6fa:	23 2f       	mov	r18, r19
+ 6fc:	34 2f       	mov	r19, r20
+ 6fe:	45 2f       	mov	r20, r21
+ 700:	56 2f       	mov	r21, r22
+ 702:	67 2f       	mov	r22, r23
+ 704:	78 2f       	mov	r23, r24
+ 706:	89 2f       	mov	r24, r25
+ 708:	90 2d       	mov	r25, r0
+ 70a:	f4 cf       	rjmp	.-24     	; 0x6f4 <__lshrdi3+0x6>
+ 70c:	05 94       	asr	r0
+ 70e:	97 95       	ror	r25
+ 710:	87 95       	ror	r24
+ 712:	77 95       	ror	r23
+ 714:	67 95       	ror	r22
+ 716:	57 95       	ror	r21
+ 718:	47 95       	ror	r20
+ 71a:	37 95       	ror	r19
+ 71c:	27 95       	ror	r18
+ 71e:	0a 95       	dec	r16
+ 720:	aa f7       	brpl	.-22     	; 0x70c <__lshrdi3+0x1e>
+ 722:	0f 91       	pop	r16
+ 724:	08 95       	ret
 
-0000067a <__adddi3_s8>:
- 67a:	00 24       	eor	r0, r0
- 67c:	a7 fd       	sbrc	r26, 7
- 67e:	00 94       	com	r0
- 680:	2a 0f       	add	r18, r26
- 682:	30 1d       	adc	r19, r0
- 684:	40 1d       	adc	r20, r0
- 686:	50 1d       	adc	r21, r0
- 688:	60 1d       	adc	r22, r0
- 68a:	70 1d       	adc	r23, r0
- 68c:	80 1d       	adc	r24, r0
- 68e:	90 1d       	adc	r25, r0
- 690:	08 95       	ret
+00000726 <__adddi3_s8>:
+ 726:	00 24       	eor	r0, r0
+ 728:	a7 fd       	sbrc	r26, 7
+ 72a:	00 94       	com	r0
+ 72c:	2a 0f       	add	r18, r26
+ 72e:	30 1d       	adc	r19, r0
+ 730:	40 1d       	adc	r20, r0
+ 732:	50 1d       	adc	r21, r0
+ 734:	60 1d       	adc	r22, r0
+ 736:	70 1d       	adc	r23, r0
+ 738:	80 1d       	adc	r24, r0
+ 73a:	90 1d       	adc	r25, r0
+ 73c:	08 95       	ret
 
-00000692 <_exit>:
- 692:	f8 94       	cli
+0000073e <_exit>:
+ 73e:	f8 94       	cli
 
-00000694 <__stop_program>:
- 694:	ff cf       	rjmp	.-2      	; 0x694 <__stop_program>
+00000740 <__stop_program>:
+ 740:	ff cf       	rjmp	.-2      	; 0x740 <__stop_program>
