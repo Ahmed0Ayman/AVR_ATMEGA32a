@@ -1,13 +1,19 @@
+
 /*
  * ADC.h
  *
- * Created: 4/26/2021 5:16:10 PM
+ * Created: 5/13/2021 11:19:31 PM
  *  Author: Ahmed_Ayman
  */ 
+
+#ifndef __ADC__
+#define __ADC__
+
+
 #include <stdint.h>
 #include "HAL_GPIO.h"
-#include "GPIO_TYPEDEF.h"
 #include <avr/interrupt.h>
+#include <stdbool.h>
 
 
 #define  PRIVATE static            /* file access only */
@@ -24,7 +30,13 @@ typedef struct
 	
 }ADC_Handler_t;     /* struct used to hold all ADC configurations */
 
-
+typedef struct
+{
+	uint8_t Analog_Comp_NegPin_Select ; /* must be one of AComp_PIN_ */
+	uint8_t Analog_Comp_OutEnable ;     /* must be AComp_EN or AComp_DIS */
+	uint8_t Analog_Comp_Interrupt ;    /* must be one of AComp_INIT_ */
+	
+}AnalogComp_Handler_t;  /* struct used to hold all AComp configurations */
 
 
 /* channel number select the user must select one of them */
@@ -68,6 +80,29 @@ typedef struct
 #define  ADC_Vref_Intrnal2_56v       0xc0u
 #define  ADC_Vref_AVCC               0x40u
 
+/* Analog comparator Negative Pin select */
+#define  AComp_PIN_AIN1					0x00u
+#define  AComp_PIN_ADC0					0x08u
+#define  AComp_PIN_ADC1					0x09u
+#define  AComp_PIN_ADC2					0X0Au
+#define  AComp_PIN_ADC3					0x0Bu
+#define  AComp_PIN_ADC4					0x0Cu
+#define  AComp_PIN_ADC5                 0x0Du
+#define  AComp_PIN_ADC6                 0x0Eu
+#define  AComp_PIN_ADC7					0X0Fu
+
+
+#define  AComp_EN                       0x00u
+#define  AComp_DIS						0x80u
+
+#define  AComp_OUT_EN                       0x20u
+#define  AComp_OUT_DIS						0x00u
+
+
+
+#define  AComp_INIT_EN                  0x08u
+#define  AComp_INIT_DIS                 0x00u
+
 
 
 
@@ -90,5 +125,17 @@ PUBLIC void ADC_INIT(ADC_Handler_t *Handler);
  * param. : KeyPadInit pointer to the handler of keypad
  * return : void 
  */
-PUBLIC void ADC_GET_VALUE(ADC_Handler_t *Handler,uint8_t AdcChannel);
+PUBLIC void ADC_Get_Value(ADC_Handler_t *Handler,uint8_t AdcChannel);
 
+
+PUBLIC void AComp_Init(AnalogComp_Handler_t * Handler);
+
+PUBLIC void AComp_Start(AnalogComp_Handler_t * handler);
+
+
+PUBLIC bool AComp_Get(void);
+
+PUBLIC  void CallBackFun(void (*fun)(void));
+
+PUBLIC void ADC_Get_Value_IT(ADC_Handler_t *Handler,uint8_t AdcChannel);
+#endif
