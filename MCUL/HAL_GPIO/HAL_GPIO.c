@@ -105,8 +105,15 @@ void HAL_GPIO_WRITEPORT(GPIO_TypeDef * PORT,uint8_t PINS,GPIO_PinState PINS_STAT
  */
 void HAL_GPIO_TOGGLE_PIN(GPIO_TypeDef * PORT,uint8_t PIN_NUM)
 {
-	    uint8_t old_state = PORT->PIN_REG;
-		PORT->PORT_REG = (~((old_state)&(PIN_NUM))&(PIN_NUM));
+	    uint8_t old_state = (PORT->PIN_REG&PIN_NUM);
+		if (old_state)
+		{
+			PORT->PORT_REG &= ~old_state ;
+		}
+		else
+		{
+			PORT->PORT_REG |= PIN_NUM ; 	
+		}
 			   
 }/* END_FUN HAL_GPIO_TOGGLE_PIN()*/
 
