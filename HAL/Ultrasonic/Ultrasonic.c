@@ -35,7 +35,7 @@ static TIMInit_t UltrasonicTIM_Handler = { .Instance = TIM1 , .TIMMode = TIM_Mod
 
 Ultrs_Status_t Ultrasonic_Init(	Ultrasonic_GPIOPINS_t * Ultrasonic_PINS )
 {
-	GPIO_InitTypeDef   PIN_CONFIG = {.mode = GPIO_MODE_OUTPUT , .pinS = Ultrasonic_PINS->TRIGGER_PIN.PINNum ,.pull = GPIO_NOPULL };
+	GPIO_InitTypeDef   PIN_CONFIG = {.mode = GPIO_MODE_OUTPUT , .pin = Ultrasonic_PINS->TRIGGER_PIN.PINNum ,.pull = GPIO_NOPULL };
 	
 	if(Ultrasonic_PINS == NULL)
 	{
@@ -46,7 +46,7 @@ Ultrs_Status_t Ultrasonic_Init(	Ultrasonic_GPIOPINS_t * Ultrasonic_PINS )
 	{
 		HAL_GPIO_INIT_PIN(Ultrasonic_PINS->TRIGGER_PIN.PORT , &PIN_CONFIG);
 		PIN_CONFIG.mode = GPIO_MODE_INPUT ;
-		PIN_CONFIG.pinS = Ultrasonic_PINS->ECO_PIN.PINNum ; 
+		PIN_CONFIG.pin = Ultrasonic_PINS->ECO_PIN.PINNum ; 
 		HAL_GPIO_INIT_PIN(Ultrasonic_PINS->ECO_PIN.PORT , &PIN_CONFIG);
 		
 		TIM_InputCaptureModeInit(TIM16Bit_InputCapture_CAPTURE_EDGE_Rising);
@@ -54,6 +54,7 @@ Ultrs_Status_t Ultrasonic_Init(	Ultrasonic_GPIOPINS_t * Ultrasonic_PINS )
 		_TIM_IT_EN(TIM_1_IT_CAPT);
 		sei();
 	}
+	
 		return Ultrasonic_OK ;
 }
 
@@ -64,13 +65,14 @@ void UltrasonicTrigger(Ultrasonic_GPIOPINS_t * Ultrasonic_PINS )
 	HAL_GPIO_WRITEPIN(Ultrasonic_PINS->TRIGGER_PIN.PORT,Ultrasonic_PINS->TRIGGER_PIN.PINNum,GPIO_PIN_SET);
 	_delay_us(10);///triggering the sensor for 10usec
 	HAL_GPIO_WRITEPIN(Ultrasonic_PINS->TRIGGER_PIN.PORT,Ultrasonic_PINS->TRIGGER_PIN.PINNum,GPIO_PIN_RESET);
-_delay_us(10);
+	
 }
 
 
 
 Ultrs_Status_t Ultrasonic_Start(Ultrasonic_GPIOPINS_t * Ultrasonic_PINS )
 {
+	
 	TIM_Start(&UltrasonicTIM_Handler);
 
 	UltrasonicTrigger(Ultrasonic_PINS);
