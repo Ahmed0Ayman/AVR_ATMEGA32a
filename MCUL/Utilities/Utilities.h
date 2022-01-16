@@ -9,6 +9,9 @@
 #ifndef UTILITES_H_
 #define UTILITES_H_
 
+
+
+
 #define  F_CPU			16000000u
 #include <avr/io.h>
 #include <stdbool.h>
@@ -24,7 +27,7 @@ typedef enum { UTIL_OK =0 , UTIL_PARAM_ERROR , UTIL_TIM_ERROR } Utilies_Status_t
 
 typedef struct {
 	TIMCaLL_BackFun Delaycallbackfunction ;
-	uint8_t		MsDelay ;
+	uint16_t		MsDelay ;
 	DalayType_t DelayAttr ;
 	
 	}DelayConfig_t;

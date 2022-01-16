@@ -7,19 +7,25 @@
 
 #include "Utilites.h"
 
+# define SOFTWARE_PWM_CTC_MODE			1
+
+
+
 PRIVATE void Delay_CallBack(void);
-
-
 
 
 /* prototypes for Local software PWM CallBack functions */
 PRIVATE void PWM_Toggle_Timer0(void);
 PRIVATE void PWM_Toggle_Timer1(void);
 PRIVATE void PWM_Toggle_Timer2(void);
-
-
-
-
+PRIVATE GPIO_InitTypeDef   PWMTim0_PIN , PWMTim1_PIN , PWMTim2_PIN;
+PRIVATE GPIO_TypeDef* PWMTim0_PORT , * PWMTim1_PORT , * PWMTim2_PORT;
+ 
+ 
+ #if SOFTWARE_PWM_CTC_MODE
+ PRIVATE uint8_t Duty_TIM0  , Duty_TIM2 ;
+#endif
+ PRIVATE uint16_t Duty_TIM1; 
 
 /* 
  * brief : this function used to generate delay in Ms blocking mode 
@@ -28,19 +34,20 @@ PRIVATE void PWM_Toggle_Timer2(void);
  * return : current timer status 
 */
 
-PRIVATE uint8_t  u8_NumOFms ;
+PRIVATE uint16_t  u8_NumOFms ;
 PRIVATE DelayConfig_t str_Delay; 
- 
- 
-PRIVATE GPIO_InitTypeDef   PIN_CONFIG ;
-PRIVATE GPIO_TypeDef* PWMTim0_PORT , * PWMTim1_PORT , * PWMTim2_PORT;
- 
- 
 static  TIMInit_t *  Tim_Delay_Handler ;
+static uint8_t IN_Use = 0 ;
 
 
 Utilies_Status_t Utilites_DelayMs_IT(TIMInit_t *  Tim_Handler, uint16_t MsDelay , DalayType_t Dalay_type , TIMCaLL_BackFun callbackfunction)
-{
+{		
+	
+		if(IN_Use == 1)
+		{
+			return UTIL_PARAM_ERROR ; 
+		}
+		
 		if((Tim_Handler == NULL) ||(callbackfunction == NULL))
 		{
 			return UTIL_PARAM_ERROR ;
@@ -82,7 +89,7 @@ Utilies_Status_t Utilites_DelayMs_IT(TIMInit_t *  Tim_Handler, uint16_t MsDelay 
 		{
 			;
 		}
-		
+		IN_Use =1 ;
 		return UTIL_OK ; 
 
 }
@@ -148,7 +155,6 @@ return UTIL_OK ;
 }
 
 
-
  
 /*
  * brief :	 this function used to inti all Timers in PWM Mode with selected Mode 
@@ -169,25 +175,59 @@ Utilies_Status_t Software_PWM_Init( StrGPIO_t PORT , uint8_t PIN_Num ,TIMInit_t 
 		;
 	}
 
-	PIN_CONFIG.mode = GPIO_MODE_OUTPUT ;
-	PIN_CONFIG.pin = PIN_Num ;
-	PIN_CONFIG.pull = GPIO_NOPULL ;
+
 	
 	
-	HAL_GPIO_INIT_PIN( PORT , &PIN_CONFIG );
+	
+	#if SOFTWARE_PWM_CTC_MODE
+	Tim_PWM_Handler->TIMMode = TIM_MODE_CTC ;
+	#else 
+	Tim_PWM_Handler->TIMMode = TIM_MODE_COMP_PWM_FAST ;
+	#endif
 	
 
+	if (Tim_PWM_Handler->Instance == TIM1)
+	{
+		Tim_PWM_Handler->TIMMode = TIM_MODE_CTC ;
+	}else
+	{
+		;
+	}
 	TIM_PWMModeInit(Tim_PWM_Handler) ;
+	
 	if (Tim_PWM_Handler->Instance  == TIM0)
-	{		PWMTim0_PORT = PORT ;
+	{
+		PWMTim0_PIN.mode = GPIO_MODE_OUTPUT ;
+		PWMTim0_PIN.pin = PIN_Num ;
+		PWMTim0_PIN.pull = GPIO_NOPULL ;
+		HAL_GPIO_INIT_PIN( PORT , &PWMTim0_PIN );
+		
+		PWMTim0_PORT = PORT ;
+		#if !SOFTWARE_PWM_CTC_MODE
+		_TIM_IT_EN(TIM_0_IT_OVER);
+		#endif
+		TIM_CallBack_FuctionSet(TIM_0_IT_OVER , PWM_Toggle_Timer0); 
 		TIM_CallBack_FuctionSet(Tim_PWM_Handler->TIM_Interrupt , PWM_Toggle_Timer0);
 
 	}else if (Tim_PWM_Handler->Instance == TIM1)
-	{		PWMTim1_PORT = PORT ;
+	{	
+		PWMTim1_PIN.mode = GPIO_MODE_OUTPUT ;
+		PWMTim1_PIN.pin = PIN_Num ;
+		PWMTim1_PIN.pull = GPIO_NOPULL ;
+		HAL_GPIO_INIT_PIN( PORT , &PWMTim1_PIN );
+		PWMTim1_PORT = PORT ;
 		TIM_CallBack_FuctionSet(Tim_PWM_Handler->TIM_Interrupt , PWM_Toggle_Timer1);
-		
 	}else if(Tim_PWM_Handler->Instance == TIM2)
-	{		PWMTim2_PORT = PORT ;
+	{	
+		PWMTim2_PIN.mode = GPIO_MODE_OUTPUT ;
+		PWMTim2_PIN.pin = PIN_Num ;
+		PWMTim2_PIN.pull = GPIO_NOPULL ;
+		HAL_GPIO_INIT_PIN( PORT , &PWMTim2_PIN );	
+		PWMTim2_PORT = PORT ;
+		#if !SOFTWARE_PWM_CTC_MODE
+		_TIM_IT_EN(TIM_2_IT_OVER);
+		#endif
+		TIM_CallBack_FuctionSet(TIM_2_IT_OVER , PWM_Toggle_Timer2);
 		TIM_CallBack_FuctionSet(Tim_PWM_Handler->TIM_Interrupt , PWM_Toggle_Timer2);
 		
 	}else
@@ -201,7 +241,6 @@ Utilies_Status_t Software_PWM_Init( StrGPIO_t PORT , uint8_t PIN_Num ,TIMInit_t 
 	return  UTIL_OK ; 
 	
 }
-
 
 
 
@@ -237,7 +276,6 @@ Utilies_Status_t Software_PWM_UpdateDuty( uint8_t SetDuty  ,TIMInit_t * Tim_PWM_
 			return UTIL_PARAM_ERROR ;
 			}else
 			{
-			
 				 if(TIM_Stop(Tim_PWM_Handler->Instance) == TIM_OK)
 				 {
 	
@@ -262,13 +300,30 @@ Utilies_Status_t Software_PWM_UpdateDuty( uint8_t SetDuty  ,TIMInit_t * Tim_PWM_
 						return UTIL_TIM_ERROR ; 
 					}
 			}
+			
+		
+			
+			
+			if (Tim_PWM_Handler->Instance == TIM1)
+			{
+					Duty_TIM1 =((Tim_PWM_Handler->TIMMode & 0xfff)/(100.0 * SetDuty ));
+			}
+			#if SOFTWARE_PWM_CTC_MODE
+			else if (Tim_PWM_Handler->Instance == TIM0)
+			{
+				  Duty_TIM0 = (256*(SetDuty/100.0));
+			}else if (Tim_PWM_Handler->Instance == TIM2)
+			{
+				 Duty_TIM2 = (256 * (SetDuty/100.0) );
+			}else
+			{
+				return UTIL_TIM_ERROR ;
+			}
+			#endif 
+			
 		
 		return UTIL_OK ; 
 }
-
-
-
-
 
 /* 
  * brief : this function used to Stop PWM Operation 
@@ -304,24 +359,90 @@ Utilies_Status_t Software_PWM_Stop(TIMInit_t * Tim_PWM_Handler)
 
 
 
+
+
+#if SOFTWARE_PWM_CTC_MODE 
 /* local function used as Callback To Toggle Selected Pin with Desired GPIO */
 
 
 void PWM_Toggle_Timer0(void)
 {	
-	HAL_GPIO_TOGGLE_PIN(PWMTim0_PORT , PIN_CONFIG.pin);
+	
+	static uint8_t ON = 0 ; 
+	if(ON == 0 )
+	{
+		
+		OCR0 = Duty_TIM0 ; 
+		ON = 1 ; 
+		
+	}
+	else
+	{
+		OCR0 = 255 - Duty_TIM0 ;
+		ON = 0 ;
+	}
+	if(Duty_TIM0 != 0 )
+	{
+		HAL_GPIO_TOGGLE_PIN(PWMTim0_PORT , PWMTim0_PIN.pin);
+	}
 }
+
+void PWM_Toggle_Timer2(void)
+{
+	static uint8_t ON = 0 ; 
+	if(ON == 0 )
+	{
+		
+		OCR2 = Duty_TIM2 ; 
+		ON = 1 ; 
+		
+	}
+	else
+	{
+		OCR2 = 255 - Duty_TIM2 ;
+		ON = 0 ;
+	}
+	if(Duty_TIM2 != 0 )
+	{
+		HAL_GPIO_TOGGLE_PIN(PWMTim2_PORT , PWMTim2_PIN.pin);
+	}
+}
+
+
+
+#else
+
+void PWM_Toggle_Timer0(void)
+{
+	HAL_GPIO_TOGGLE_PIN(PWMTim0_PORT , PWMTim0_PIN.pin);
+}
+
+void PWM_Toggle_Timer2(void)
+{
+	HAL_GPIO_TOGGLE_PIN(PWMTim2_PORT , PWMTim2_PIN.pin);
+}
+#endif 
 
 
 void PWM_Toggle_Timer1(void)
 {
-	HAL_GPIO_TOGGLE_PIN(PWMTim1_PORT , PIN_CONFIG.pin);
-}
-
-
-void PWM_Toggle_Timer2(void)
-{
-	HAL_GPIO_TOGGLE_PIN(PWMTim2_PORT , PIN_CONFIG.pin);
+	static uint8_t ON = 0 ;
+	if(ON == 0 )
+	{
+		
+		OCR1A =0xfffu - Duty_TIM1 ;
+		ON = 1 ;
+		
+	}
+	else
+	{
+		OCR1A =  Duty_TIM1 ;
+		ON = 0 ;
+	}
+	if(Duty_TIM1 != 0 )
+	{
+		HAL_GPIO_TOGGLE_PIN(PWMTim1_PORT , PWMTim1_PIN.pin);
+	}
 }
 
 
@@ -339,7 +460,8 @@ void Delay_CallBack(void)
 	
 	--u8_NumOFms;
 	if(u8_NumOFms == 1)
-	{
+	{	
+		IN_Use = 0 ; 
 		str_Delay.Delaycallbackfunction();
 		u8_NumOFms = str_Delay.MsDelay ;
 		
