@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <util/delay.h>
 #include "HAL_GPIO.h"
-#include "LCD_Bits.h"
+#include "LCD_Pins.h"
  
  
  
@@ -15,15 +15,16 @@
 
 typedef struct 
 {
-		GPIO_TypeDef   * Port ;
+		StrGPIO_t        Port ;
 		uint8_t          Pin  ;
-	}LCD_bit;
+}LCD_bit;
 
 typedef struct   
 {
 	LCD_bit LcdBits[7];
 }LcdBitSelect_t;
 
+typedef enum  { LCD_OK , LCD_PARAM_ERROR , LCD_CONFIG_ERROR }LCD_Status_t;
 
 extern LcdBitSelect_t LcdBitSelect ;
 
@@ -54,14 +55,14 @@ HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[i].Port,LcdBitSelect.LcdBits[i].Pin,GPIO_
  *brief  : this function used to initialize (GPIO &LCD) 
  * return : void 
  */  
-void LCD_Initializaion(void);
+LCD_Status_t LCD_Initializaion(void);
 
 /* 
  *brief  : this function used to send an character to LCD with the current location 
  * param. : Character the specific character to send to LCD 
  * return : void 
  */  
-void LCD_Send_Character_CurrLoc(uint8_t character);
+LCD_Status_t LCD_Send_Character_CurrLoc(uint8_t character);
 
 /*
  * brief  : this function used to send an character to LCD with the chosen location 
@@ -70,21 +71,21 @@ void LCD_Send_Character_CurrLoc(uint8_t character);
  * param. : character the specific character to send to LCD 
  * return : void 
  */
-void LCD_Send_Character_WithLoc(uint8_t y,uint8_t x,uint8_t character);
+LCD_Status_t LCD_Send_Character_WithLoc(uint8_t y,uint8_t x,uint8_t character);
 
 /*
  * brief  : this function used to send an string to LCD with the current location 
  * param. : Character the specific character to send to LCD 
  * return : void 
  */
-void LCD_Send_String_CurrLoc(uint8_t *string);
+LCD_Status_t LCD_Send_String_CurrLoc(uint8_t *string);
 
 /*
  * brief  : this function used to send command to LCD  
  * param. : command the specific command to send to LCD chose one of @ LCD_COMMANED_ 
  * return : void 
  */
-void LCD_Send_Command(uint8_t command);
+LCD_Status_t LCD_Send_Command(uint8_t command);
 
 /*
  * brief  : this function used to modify the current cursor location 
@@ -92,7 +93,7 @@ void LCD_Send_Command(uint8_t command);
  * param. :  x  is specify the new X axises
  * return : void 
  */
-void LCD_Goto_Location(uint8_t y , uint8_t x);
+LCD_Status_t LCD_Goto_Location(uint8_t y , uint8_t x);
 
 /*
  * brief  : this function used to send an string to LCD with the chosen location 
@@ -101,7 +102,7 @@ void LCD_Goto_Location(uint8_t y , uint8_t x);
  * param. : StringOfCharacters pointer to string that you want to display
  * return : void 
  */
-void LCD_Send_String_WithLoc(uint8_t y, uint8_t x, uint8_t *StringOfCharacters);
+LCD_Status_t LCD_Send_String_WithLoc(uint8_t y, uint8_t x, uint8_t *StringOfCharacters);
 
 /*
  * brief  : this function used to send an 16 bit integer to LCD with the chosen location 
@@ -111,7 +112,7 @@ void LCD_Send_String_WithLoc(uint8_t y, uint8_t x, uint8_t *StringOfCharacters);
  * param. : NumberOfDigits number of digits of the integer number that you want to display
  * return : void 
  */
-void LCD_Send_Integer_WithLoc(uint8_t y, uint8_t x, uint16_t IntegerToDisplay, uint8_t NumberOfDigits);
+LCD_Status_t LCD_Send_Integer_WithLoc(uint8_t y, uint8_t x, uint16_t IntegerToDisplay, uint8_t NumberOfDigits);
 
 
 /*
@@ -121,7 +122,7 @@ void LCD_Send_Integer_WithLoc(uint8_t y, uint8_t x, uint16_t IntegerToDisplay, u
  * param. : IntegerToDisplay this is the integer value that you want to display
  * return : void 
  */
-void LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number );
+LCD_Status_t LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number );
 
 /* 
  * brief  : this function used to send an 16 bit integer to LCD with the current location 
@@ -129,7 +130,7 @@ void LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number );
  * param. : NumberOfDigits number of digits of the integer number that you want to display
  * return : void 
  */
-void LCD_Send_Integer_CurrLoc(uint16_t IntegerToDisplay, uint8_t NumberOfDigits);
+LCD_Status_t LCD_Send_Integer_CurrLoc(uint16_t IntegerToDisplay, uint8_t NumberOfDigits);
 
 
 

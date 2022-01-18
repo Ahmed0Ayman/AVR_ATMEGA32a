@@ -56,6 +56,7 @@ static void LCD_Send_4BitData(uint8_t data)
 		HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[i].Port,LcdBitSelect.LcdBits[i].Pin,((1<<(i-3))&(data))>>(i-3));	/* set the high nibble */
 		LCD_Triger_Enable();
 
+
 } /* END_FUN LCD_Send_4BitData()*/
 
 
@@ -65,13 +66,14 @@ static void LCD_Send_4BitData(uint8_t data)
  * param. : Character the specific character to send to LCD 
  * return : void 
  */ 
-void LCD_Send_Character_CurrLoc(uint8_t character)
+LCD_Status_t LCD_Send_Character_CurrLoc(uint8_t character)
 {
 	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Pin,GPIO_PIN_SET);  // set enable pin
 	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Pin,GPIO_PIN_RESET);  // set enable pin
 
 	LCD_Send_4BitData(character);
 	
+		return LCD_OK ;
 } /* END_FUN LCD_Send_Character_CurrLoc()*/
 
 
@@ -82,13 +84,15 @@ void LCD_Send_Character_CurrLoc(uint8_t character)
  * param. : command the specific command to send to LCD chose one of @ LCD_COMMANED_ 
  * return : void 
  */
-void LCD_Send_Command(uint8_t command)
+LCD_Status_t LCD_Send_Command(uint8_t command)
 {
 	
 	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RS_PIN].Pin,GPIO_PIN_RESET);  // set enable pin		
 	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Pin,GPIO_PIN_RESET);  // set enable pin
 	LCD_Send_4BitData(command);
 	
+	
+		return LCD_OK ;
 } /* END_FUN LCD_Send_Command()*/
 
 
@@ -101,7 +105,7 @@ void LCD_Send_Command(uint8_t command)
  * param. : character the specific character to send to LCD 
  * return : void 
  */
-void LCD_Send_Character_WithLoc(uint8_t y,uint8_t x,uint8_t character)
+LCD_Status_t LCD_Send_Character_WithLoc(uint8_t y,uint8_t x,uint8_t character)
 {
 	
 	LCD_Goto_Location(y,x);
@@ -109,6 +113,8 @@ void LCD_Send_Character_WithLoc(uint8_t y,uint8_t x,uint8_t character)
 	HAL_GPIO_WRITEPIN(LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Port,LcdBitSelect.LcdBits[LCD_BIT_RW_PIN].Pin,GPIO_PIN_RESET);  // set enable pin
 	LCD_Send_4BitData(character);
 	
+	
+		return LCD_OK ;
 } /* END_FUN LCD_Send_Character_WithLoc()*/
 
 
@@ -120,7 +126,7 @@ void LCD_Send_Character_WithLoc(uint8_t y,uint8_t x,uint8_t character)
  * param. : Character the specific character to send to LCD 
  * return : void 
  */
-void LCD_Send_String_CurrLoc(uint8_t *string)
+LCD_Status_t LCD_Send_String_CurrLoc(uint8_t *string)
 {
 	while (*string != 0)
 	{
@@ -128,6 +134,8 @@ void LCD_Send_String_CurrLoc(uint8_t *string)
 
 	}
 	
+	
+	return LCD_OK ;
 } /* END_FUN LCD_Send_String_CurrLoc()*/
 
 
@@ -139,10 +147,12 @@ void LCD_Send_String_CurrLoc(uint8_t *string)
  * param. :  x  is specify the new X axises
  * return : void 
  */
-void LCD_Goto_Location(uint8_t y , uint8_t x)
+LCD_Status_t LCD_Goto_Location(uint8_t y , uint8_t x)
 {
 	LCD_Send_Command(column_position[y-1]+(x-1));
-	
+
+
+	return LCD_OK ;	
 } /* END_FUN LCD_Goto_Location()*/
 
 
@@ -152,7 +162,7 @@ void LCD_Goto_Location(uint8_t y , uint8_t x)
  * brief  : this function used to initialize (GPIO &LCD) 
  * return : void 
  */ 
-void LCD_Initializaion(void)
+LCD_Status_t LCD_Initializaion(void)
 {
 	GPIO_InitTypeDef LCD_GPIO_Handler ;
 	
@@ -167,7 +177,8 @@ void LCD_Initializaion(void)
 	
 	for(int i =0 ; i < 7 ;i++)
 	{
-		LCD_GPIO_Handler.pinS = LcdBitSelect.LcdBits[i].Pin ;  
+		LCD_GPIO_Handler.pin = LcdBitSelect.LcdBits[i].Pin ;
+		  
 		HAL_GPIO_INIT_PIN(LcdBitSelect.LcdBits[i].Port,&LCD_GPIO_Handler);
 	}
 
@@ -177,6 +188,9 @@ void LCD_Initializaion(void)
 	LCD_Send_Command(LCD_COMMANED2LINE_4_BIT_MODE);
 	LCD_Send_Command(LCD_COMMANED_CLEAR_CURSOR_OFF);
 	LCD_Send_Command(LCD_COMMANED_CLEAR_LCD);
+	
+
+	return LCD_OK ;
 	
 } /* END_FUN LCD_Initializaion()*/
 
@@ -190,13 +204,16 @@ void LCD_Initializaion(void)
  * param. : StringOfCharacters pointer to string that you want to display
  * return : void 
  */
-void LCD_Send_String_WithLoc(uint8_t y, uint8_t x, uint8_t *StringOfCharacters)
+LCD_Status_t LCD_Send_String_WithLoc(uint8_t y, uint8_t x, uint8_t *StringOfCharacters)
 {
 	LCD_Goto_Location(y,x);
 	while (*StringOfCharacters != 0)
 	{
 		LCD_Send_Character_CurrLoc(*StringOfCharacters++);  
 	}
+	
+	
+	return LCD_OK ;
 } /* END_FUN Send_A_String_WithLoc()*/
 
 
@@ -210,7 +227,7 @@ void LCD_Send_String_WithLoc(uint8_t y, uint8_t x, uint8_t *StringOfCharacters)
  * param. : IntegerToDisplay this is the integer value that you want to display
  * return : void 
  */
-void LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number )
+LCD_Status_t LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number )
 {
 	LCD_Goto_Location(y,x);
 	
@@ -222,6 +239,9 @@ void LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number )
 	LCD_Send_Integer_CurrLoc(intValue,5);
 	LCD_Send_Character_CurrLoc('.');
 	LCD_Send_Integer_CurrLoc(decimalValue,5);
+	
+	
+		return LCD_OK ;
 } /* END_FUN LCD_Send_Float_Withloc()*/
 
 
@@ -234,12 +254,14 @@ void LCD_Send_Float_Withloc(uint8_t y, uint8_t x ,  float number )
  * param. : NumberOfDigits number of digits of the integer number that you want to display
  * return : void 
  */
-void LCD_Send_Integer_CurrLoc(uint16_t IntegerToDisplay, uint8_t NumberOfDigits)
+LCD_Status_t LCD_Send_Integer_CurrLoc(uint16_t IntegerToDisplay, uint8_t NumberOfDigits)
 {
 		uint8_t StringToDisplay[NumberOfDigits];   /* create array with required size */ 
 		itoa(IntegerToDisplay,StringToDisplay,10); /* convert from int num. to char num. */
 		LCD_Send_String_CurrLoc(StringToDisplay);  /* print char array on the screen */
 	
+	
+		return LCD_OK ;
 } /* END_FUN LCD_Send_Integer_CurrLoc()*/
 
 
@@ -253,7 +275,7 @@ void LCD_Send_Integer_CurrLoc(uint16_t IntegerToDisplay, uint8_t NumberOfDigits)
  * param. : NumberOfDigits number of digits of the integer number that you want to display
  * return : void 
  */
-void LCD_Send_Integer_WithLoc(uint8_t y, uint8_t x, uint16_t IntegerToDisplay, uint8_t NumberOfDigits)
+LCD_Status_t LCD_Send_Integer_WithLoc(uint8_t y, uint8_t x, uint16_t IntegerToDisplay, uint8_t NumberOfDigits)
 {
 	uint8_t StringToDisplay[NumberOfDigits];   /* create array with required size */
 	itoa(IntegerToDisplay,StringToDisplay,10); /* convert from int num. to char num. */
@@ -261,5 +283,9 @@ void LCD_Send_Integer_WithLoc(uint8_t y, uint8_t x, uint16_t IntegerToDisplay, u
 		LCD_Send_Character_CurrLoc(' ');
 		
 	LCD_Send_String_WithLoc(y,x,StringToDisplay);
+	
+	
+	
+		return LCD_OK ;
 } /* END_FUN LCD_Send_Integer_WithLoc()*/
 

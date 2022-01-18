@@ -6,8 +6,8 @@
  */ 
 
 
-#ifndef LCD_BITS_H_
-#define LCD_BITS_H_
+#ifndef LCD_PINS_H_
+#define LCD_PINS_H_
 
 #include "Lcd-Driver.h"
 
@@ -30,4 +30,4 @@
 
 
 
-#endif /* LCD_BITS_H_ */
+#endif /* LCD_PINS_H_ */
