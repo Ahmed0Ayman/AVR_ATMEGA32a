@@ -4,13 +4,28 @@
  * Created: 5/5/2021 11:20:19 AM
  *  Author: Ahmed_Ayman
  */ 
+# ifndef __KEYPAD_H__
+#define __KEYPAD_H__
+
 
 #include <stdint.h>
 #include "HAL_GPIO.h"
 #include "stdbool.h"
 
-#define __Keypad_4_4_    1    /* one means keypad 4*4 if set to zero means keypad 3*4 depending on our keypad characteristic */ 
+#include "KeyPad_Pins.h"
 
+#if(!_USE_PULL_UP)
+
+#define  WRIGHT_FIRST			GPIO_PIN_SET
+#define  WRIGHT_SECOND			GPIO_PIN_RESET
+
+#elif(_USE_PULL_UP)
+
+#define  WRIGHT_FIRST			GPIO_PIN_RESET
+#define  WRIGHT_SECOND			GPIO_PIN_SET
+
+
+#endif
 
 typedef struct
 {
@@ -34,15 +49,18 @@ typedef struct
   KeyPad_PinTypeDef PortRow1 ;
   KeyPad_PinTypeDef PortRow2 ;
   KeyPad_PinTypeDef PortRow3 ;
-  KeyPad_PinTypeDef PortRow4 ;
   
- #if(__Keypad_4_4_)    /* here this code will insert or removed depending on preprocessor configuration */
-  KeyPad_PinTypeDef PortColumn4 ;
+#if(!__Keypad_3_3__)
+	#if (__Keypad_4_3__)
+	KeyPad_PinTypeDef PortRow4 ;
+	#endif
+	#if(__Keypad_4_4__)    /* here this code will insert or removed depending on preprocessor configuration */
+	KeyPad_PinTypeDef PortRow4 ;
+	KeyPad_PinTypeDef PortColumn4 ;
+ 	#endif
 
- #endif
-
-}KeyPad_Handler;
-
+#endif
+}KeyPad_Handler_t ;
 
 
 /*
@@ -50,11 +68,17 @@ typedef struct
  * param. : KeyPadInit pointer to the handler of keypad
  * return : pressed character 
  */
-char GetPressedKey(KeyPad_Handler * KeyPadInit);
+char KeyPad_GetPressedKey(KeyPad_t * KeyPad);
 
 /*
  * brief  : this function used to initialize keypad
  * param. : KeyPadInit pointer to the handler of keypad
  * return : void 
  */
-void KeyPad_Initialization(KeyPad_Handler * KeyPadInit);
+void KeyPad_Initialization(KeyPad_t * KeyPad);
+
+
+
+
+
+#endif /*__KEYPAD_H__ */
