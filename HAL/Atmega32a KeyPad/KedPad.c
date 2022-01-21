@@ -51,7 +51,7 @@ void KeyPad_Initialization(KeyPad_t * KeyPad)
  */
 char KeyPad_GetPressedKey(KeyPad_t * KeyPad)
 {
-	char Key =0;
+	char Key =' ';
 	for (uint8_t iterCOL = 0  ; iterCOL < _NUM_OF_ColumnS ; iterCOL++)
 	{
 

@@ -10,8 +10,8 @@
 #include <stdint.h>
 #include "HAL_GPIO.h"
 
-#define  _NUM_OF_ROWS  4
-#define  _NUM_OF_ColumnS  4
+#define  _NUM_OF_ROWS  3
+#define  _NUM_OF_ColumnS  3
 
 
 
